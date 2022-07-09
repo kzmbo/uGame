@@ -13,6 +13,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    refresh_token: {
+        type: String,
+        default: null
+    },
     game_list: {
         games_played: [
             {
