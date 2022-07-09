@@ -45,7 +45,15 @@ app.post('/login', async (req, res) => {
                     const refreshToken = generateRefreshToken(loginUser[0])
                     UserModel.findOneAndUpdate({email: email}, {refresh_token: refreshToken}, (error, isUpdated) => {
                         if (error) throw error
-                        return res.json({isLoggedIn: true, user: isUpdated})
+                        UserModel.find({_id: loginUser[0]._id}).select({password: 0})
+                        .then((userRes) => {
+                            const userInfo = JSON.parse(JSON.stringify(userRes))
+                            return res.json({isLoggedIn: true, user: userInfo[0]})
+                        })
+                        .catch((error) => {
+                            return res.json({error: error})
+                        })
+                        
                     })
                 } else {
                     return res.json({isPasswordIncorrect: true})
