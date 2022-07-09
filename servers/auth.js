@@ -25,8 +25,15 @@ const generateRefreshToken = (user) => {
     return jwt.sign(user, process.env.REFRESH_KEY, {expiresIn: '2h'})
 }
 
+//Logout endpoint; existing users get to sign off, removing refresh token and access token
+app.post('/logout', async (req, res) => {
+    const userId = req.body._id
+    await UserModel.findByIdAndUpdate(userId, {refresh_token: null})
+    return res.json({isLoggedIn: false})    
+})
 
-//Login endpoint; existing users are able to log back in here
+
+//Login endpoint; existing users are able to log back, giving them both an access token & refresh token
 app.post('/login', async (req, res) => {
     const email = req.body.email
     const password = req.body.password
