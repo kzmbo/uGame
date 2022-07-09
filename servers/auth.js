@@ -5,6 +5,8 @@ const app = express()
 const mongoose = require("mongoose")
 const UserModel = require("./model/user")
 const cors = require("cors");
+const bcrypt = require("bcrypt")
+const saltRound = 10;
 
 app.use(express.json());
 app.use(cors());
@@ -16,20 +18,35 @@ mongoose.connect(URL_DB, {useNewUrlParser: true})
 
 
 
-app.post('/signup', async(req, res) => {
+app.post('/signup', async(req, response) => {
     const email = req.body.email
     const username = req.body.username
     const password = req.body.username
-    const newUser = UserModel(email, username, password)
-    await newUser.save()
-        .then(() => {
-            console.log("User saved")
-        })
-        .catch(() => {
-            console.log("Error: User not saved into DB")
-        })
+    const user = req.body
 
-    res.send("user sent")
+
+    //Checks for any existing email
+    await UserModel.find({email: email})
+    .then((res) => {
+        if (res.length == 0) {
+            bcrypt.hash(user.password, saltRound, async (err, hash) => {
+                if (err) console.log(err)
+                user.password = hash
+                const newUser = new UserModel(user)
+                await newUser.save()
+            })
+            return response.send("user sent")
+        }
+        return response.send("user exists already")
+    }).catch((err) => {
+        console.log(err)
+    })
+ 
+
+    //if (findExistingUser)
+
+
+   
 })
 
 
