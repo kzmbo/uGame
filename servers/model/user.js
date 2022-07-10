@@ -19,28 +19,10 @@ const UserSchema = new mongoose.Schema({
     },
     game_list: {
         games_played: [
-            {
-                game_title: {
-                    type: String
-                },
-                game_rating: {
-                    type: String
-                },
-                game_status: {
-                    type: String
-                },
-
-            }
+          
         ],
         games_wishlist: [
-            {
-                game_title: {
-                    type: String
-                },
-                game_release_date: {
-                    type: String
-                }
-            }
+           
         ]
     }
 })
