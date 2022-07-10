@@ -42,11 +42,10 @@ app.post('/token', async (req, res) => {
     })
 
     jwt.verify(refreshToken, process.env.REFRESH_KEY, (error, userWithNewAccessToken) => {
-        if (error) return res.sendStatus(403, {isLoggedIn: false})
-        console.log(userWithNewAccessToken)
+        if (error) return res.json({msg: "expired token", isLoggedIn: false})
+        
         delete userWithNewAccessToken.iat
         delete userWithNewAccessToken.exp
-        console.log(userWithNewAccessToken)
 
         const accessToken = generateAccessToken(userWithNewAccessToken)
         return res.json({accessToken: accessToken, user: userWithNewAccessToken})
