@@ -19,12 +19,12 @@ mongoose.connect(URL_DB, {useNewUrlParser: true})
 
 //Creates an access token that lasts for 30 minutes 
 const generateAccessToken = (user) => {
-    return jwt.sign(user, process.env.ACCESS_KEY, {expiresIn: '30m'})
+    return jwt.sign(user, process.env.ACCESS_KEY, {expiresIn: '10s'})
 }
 
 //Creates a refresh token that lasts for 2 hours 
 const generateRefreshToken = (user) => {
-    return jwt.sign(user, process.env.REFRESH_KEY, {expiresIn: '2h'})
+    return jwt.sign(user, process.env.REFRESH_KEY, {expiresIn: '20s'})
 }
 
 //Creates a new access token for the user
@@ -48,7 +48,7 @@ app.post('/token', async (req, res) => {
         delete userWithNewAccessToken.exp
 
         const accessToken = generateAccessToken(userWithNewAccessToken)
-        return res.json({accessToken: accessToken, user: userWithNewAccessToken})
+        return res.json({accessToken: accessToken, user: userWithNewAccessToken, isLoggedIn: true})
     })
 
 })
