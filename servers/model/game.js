@@ -15,7 +15,10 @@ const GameSchema = new mongoose.Schema({
     },
     game_release_date: {
         type: String
-    }
+    },
+    game_platforms_images: [
+        
+    ]
 })
 
 const GameModel = mongoose.model('game', GameSchema)
