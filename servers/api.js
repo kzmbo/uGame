@@ -17,14 +17,15 @@ mongoose.connect(URL_DB, {useNewUrlParser: true})
 
 app.post('/addplayedgame', async (req, res) => {
     const userId = req.body.id
-    // const gameObj = req.body.game
+    const gameObj = req.body.game
+    const accessToken = req.body.accessToken
 
     //Created Game Model
-    // const newGame = new GameModel(gameObj)
+    const newGame = new GameModel(gameObj)
 
     await UserModel.findById(userId, 'game_list games_played')
     .then(async (db) => {
-        const arr = db.game_list.games_played.push('Bloodborne')
+        const arr = db.game_list.games_played.push(newGame)
         await db.save()
         res.send(db.game_list.games_played)
     })
