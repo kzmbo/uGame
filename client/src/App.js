@@ -1,14 +1,17 @@
 import Axios from 'axios'
+import { BrowserRouter, Routes, Route, Link,  } from "react-router-dom"
+import Login from './views/Login';
+import Signup from './views/Signup';
 
 function App() {
-
-  const signup = async () => {
-    await Axios.post('http://localhost:5000/signup').then(() => console.log('user saved to db')).catch((err) => console.log(err))
-  }
   return (
-    <div className="App">
-      <button onClick={signup}>click me</button>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' index element={<Login />} />
+        <Route path='/login' element={<Login />}/>
+        <Route path='/signup' element={<Signup />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
