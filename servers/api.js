@@ -4,8 +4,6 @@ const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
 const UserModel = require("./model/user")
-const GameModel = require("./model/game")
-const Axios = require('axios')
 const cors = require("cors");
 const jwt = require('jsonwebtoken')
 
@@ -33,12 +31,10 @@ const verifyToken = (req, res, next) => {
 app.post('/addgamewishlist', verifyToken, async (req, res) => {
     const userId = req.body.id
     const gameObj = req.body.game
-    //Created Game Model
-    const newGame = new GameModel(gameObj)
                 
     await UserModel.findById(userId, 'game_list games_wishlist')
     .then(async (db) => {
-        const arr = db.game_list.games_wishlist.push(newGame) 
+        const arr = db.game_list.games_wishlist.push(gameObj) 
         await db.save()
         return res.send(db.game_list.games_wishlist)
     })
@@ -51,11 +47,17 @@ app.post('/addgamewishlist', verifyToken, async (req, res) => {
 app.put('/editplayedgame', verifyToken, async (req, res) => {
     const userId = req.body.userId
     const gameId = req.body.gameId
+    const status = req.body.status
+    const rating = req.body.rating
 
-    await GameModel.findById(gameId)
+    await UserModel.findById(userId, 'game_list')
     .then((result) => {
-        console.log(result)
-        res.send(result)
+        const listOfPlayedGames = result.game_list.games_played
+        const gameToEdit = listOfPlayedGames.find(({id}) => id === gameId)
+        gameToEdit.game_status = status
+        gameToEdit.game_rating = rating
+        result.save()
+        res.json({game: gameToEdit, statusCode: 200})
     })
     .catch((error) => {
         res.send(error)
@@ -66,12 +68,10 @@ app.put('/editplayedgame', verifyToken, async (req, res) => {
 app.post('/addplayedgame', verifyToken, async (req, res) => {
     const userId = req.body.id
     const gameObj = req.body.game
-    //Created Game Model
-    const newGame = new GameModel(gameObj)
-                
+                    
     await UserModel.findById(userId, 'game_list games_played')
     .then(async (db) => {
-        const arr = db.game_list.games_played.push(newGame)
+        const arr = db.game_list.games_played.push(gameObj)
         await db.save()
         return res.send(db.game_list.games_played)
     })
@@ -81,7 +81,47 @@ app.post('/addplayedgame', verifyToken, async (req, res) => {
     })
 })
 
+//Deletes game from played list
+app.delete('/deleteplayedgame', verifyToken, async (req, res) => {
+    const userId = req.body.userId
+    const gameId = req.body.gameId
 
+    await UserModel.findById(userId, 'game_list')
+    .then((result) => {
+        const listOfPlayedGames = result.game_list.games_played
+        const game = listOfPlayedGames.find(({id}) => id === gameId)
+        const index = listOfPlayedGames.indexOf(game)
+        
+        listOfPlayedGames.splice(index)
+        result.save()
+        
+        res.json({listOfGames: listOfPlayedGames, statusCode: 200})
+    })
+    .catch((error) => {
+        res.send(error)
+    })
+})
+
+//Deletes game from wishlist
+app.delete('/deletewishlistgame', verifyToken, async (req, res) => {
+    const userId = req.body.userId
+    const gameId = req.body.gameId
+
+    await UserModel.findById(userId, 'game_list')
+    .then((result) => {
+        const listOfPlayedGames = result.game_list.games_wishlist
+        const game = listOfPlayedGames.find(({id}) => id === gameId)
+        const index = listOfPlayedGames.indexOf(game)
+        
+        listOfPlayedGames.splice(index)
+        result.save()
+        
+        res.json({listOfGames: listOfPlayedGames, statusCode: 200})
+    })
+    .catch((error) => {
+        res.send(error)
+    })
+})
 
 app.listen(4000, () => {
     console.log("API server running on port 4000.")
