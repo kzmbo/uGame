@@ -1,3 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .bg-login-signup {
+    @apply bg-black text-white h-screen w-screen
+  }
+  .logo-header {
+    @apply text-3xl p-10 font-semibold md:text-4xl md:p-14
+  }
+  .header-login-signup {
+    @apply text-lg font-semibold text-center mb-3 md:text-3xl md:mb-5
+  }
+  .text-field-labels {
+    @apply text-base font-normal mx-10 md:text-lg
+  }
+  .text-field {
+    @apply bg-transparent border rounded-lg mt-1 mb-2 mx-10 md:py-1 md:mt-2 md:mb-3
+  }
+  .login-signup-btn {
+    @apply my-4 md:my-6 bg-blue mx-20 py-2 rounded-lg text-black font-semibold md:mx-32 md:text-lg 
+  }
+  .subtext-login-signup {
+    @apply text-sm text-center font-light md:text-base
+  }
+}
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
