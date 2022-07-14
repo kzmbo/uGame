@@ -3,17 +3,38 @@
 @tailwind utilities;
 
 /* For making comments, use template below for copy and paste */
-/* */
+/*  */
 
 @layer components {
-  /* The background for the login and signup page */
+
+  /* Split banner and login/signup section into two parts */
   .bg-login-signup {
-    @apply bg-black text-white h-screen w-screen
+    @apply lg:flex 
+  }
+
+  /* The background of the banner */
+  .login-signup-banner{
+    @apply bg-white w-3/5 invisible lg:visible relative
+  }
+
+  /* A section within the banner that contains the following text shown in the bottom of the screen */
+  .banner-section {
+    @apply absolute text-center text-lg font-semibold w-full bottom-14
+  }
+
+  /* The section for the login and signup page */
+  .login-sign-section {
+    @apply bg-black text-white h-screen w-screen lg:w-1/2
   }
 
   /* Title heading for the website "uGame" */
   .logo-header {
-    @apply text-3xl p-10 font-semibold md:text-4xl md:p-14
+    @apply text-3xl p-10 font-semibold md:text-4xl md:p-14 lg:invisible
+  }
+
+  /* The header for the banner; only displays on laptops and desktops */
+  .logo-header-banner{
+    @apply font-semibold text-4xl p-8 invisible lg:visible
   }
 
   /* The heading for input field. For login page = "Login", For signup page = "Sign up" */
