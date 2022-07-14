@@ -2,25 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+/* For making comments, use template below for copy and paste*/
+/* */
+
 @layer components {
+  /* The background for the login and signup page */
   .bg-login-signup {
     @apply bg-black text-white h-screen w-screen
   }
+
+  /* Title heading for the website "uGame" */
   .logo-header {
     @apply text-3xl p-10 font-semibold md:text-4xl md:p-14
   }
+
+  /* The heading for input field. For login page = "Login", For signup page = "Sign up" */
   .header-login-signup {
     @apply text-lg font-semibold text-center mb-3 md:text-3xl md:mb-5
   }
+
+  /* The labels for the text fields*/
   .text-field-labels {
-    @apply text-base font-normal mx-10 md:text-lg
+    @apply text-base font-normal mx-10 md:text-xl
   }
+
+  /* The text field for entering the input (ex. email, username, and password) */
   .text-field {
-    @apply bg-transparent border rounded-lg mt-1 mb-2 mx-10 md:py-1 md:mt-2 md:mb-3
+    @apply bg-transparent border rounded-lg px-2 py-1 text-sm mt-1 mb-2 mx-10 md:py-1 md:mt-2 md:mb-3 md:text-lg
   }
+
+  /* The button for submitting the values in the fields */
   .login-signup-btn {
     @apply my-4 md:my-6 bg-blue mx-20 py-2 rounded-lg text-black font-semibold md:mx-32 md:text-lg 
   }
+
+  /* The text prompting users for cases where they may have an account or not. */
   .subtext-login-signup {
     @apply text-sm text-center font-light md:text-base
   }
