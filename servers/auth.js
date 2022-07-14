@@ -17,13 +17,41 @@ app.use(cors());
 const URL_DB = process.env.URL_DB
 mongoose.connect(URL_DB, {useNewUrlParser: true})
 
+//Creates an access token that lasts for 30 minutes 
 const generateAccessToken = (user) => {
-    return jwt.sign(user, process.env.ACCESS_KEY, {expiresIn: '30m'})
+    return jwt.sign(user, process.env.ACCESS_KEY, {expiresIn: '10m'})
 }
 
+//Creates a refresh token that lasts for 2 hours 
 const generateRefreshToken = (user) => {
-    return jwt.sign(user, process.env.REFRESH_KEY, {expiresIn: '2h'})
+    return jwt.sign(user, process.env.REFRESH_KEY, {expiresIn: '1h'})
 }
+
+//Creates a new access token for the user
+app.post('/token', async (req, res) => {
+    const refreshToken = req.body.refresh_token
+    const userId = req.body._id
+
+    if (refreshToken == null) return res.sendStatus(401, {isLoggedIn: false})
+    await UserModel.find({_id: userId})
+    .then((user) => {
+        if (user.length == 0) return res.sendStatus(403, {isLoggedIn: false})
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+
+    jwt.verify(refreshToken, process.env.REFRESH_KEY, (error, userWithNewAccessToken) => {
+        if (error) return res.json({msg: "expired token", isLoggedIn: false})
+        
+        delete userWithNewAccessToken.iat
+        delete userWithNewAccessToken.exp
+
+        const accessToken = generateAccessToken(userWithNewAccessToken)
+        return res.json({accessToken: accessToken, user: userWithNewAccessToken, isLoggedIn: true})
+    })
+
+})
 
 //Logout endpoint; existing users get to sign off, removing refresh token and access token
 app.post('/logout', async (req, res) => {
@@ -55,7 +83,7 @@ app.post('/login', async (req, res) => {
                         UserModel.find({_id: loginUser[0]._id}).select({password: 0})
                         .then((userRes) => {
                             const userInfo = JSON.parse(JSON.stringify(userRes))
-                            return res.json({isLoggedIn: true, user: userInfo[0]})
+                            return res.json({isLoggedIn: true, user: userInfo[0], accessToken: accessToken})
                         })
                         .catch((error) => {
                             return res.json({error: error})
