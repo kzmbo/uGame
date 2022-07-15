@@ -5,49 +5,47 @@ const app = express()
 const mongoose = require("mongoose")
 const UserModel = require("./model/user")
 const session = require('express-session')
+const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require("cors");
 const bcrypt = require("bcrypt")
-const { Store } = require('express-session')
 const saltRound = 10;
+
+//MongoDB config
+const URL_DB = process.env.URL_DB
+mongoose.connect(URL_DB, {useNewUrlParser: true})
 
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+
+//Initialized collections for storing sessions
+const store = new MongoDBStore({
+    uri: URL_DB,
+    collection: 'uGameSessions'
+});
+  
+// Catches any error when creating collections for storing sessions
+store.on('error', (error) => {
+    console.log(error)
+});
+
 app.use(session({
     name: "uGameSession",
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: {
-        expires: 60 * 60 * 24,
-    }
+        maxAge: 3600000, // One hour in Milliseconds
+    },
+    store: store
 }))
-
-//MongoDB config
-const URL_DB = process.env.URL_DB
-mongoose.connect(URL_DB, {useNewUrlParser: true})
-
-//Middleware to check if user is authenticated
-const verifyUser = (req, res, next) => {
-    if (req.session.user) next()
-    else next('route')
-}
-
 
 //Authenicating Users
 //Logout endpoint; existing users get to sign off, removing refresh token and access token
 app.post('/logout', async (req, res) => {
-    const sid = req.body.sid
-    Store.ge
-    req.session.user = null
-    console.log(req.session)
-
-    req.session.save((err) => {
-        if (err) next(err)
-
-        req.session.regenerate((err) => {
-            if (err) next(err)
-            return res.json({isLoggedOut: true, session: {userId: req.session.user}})
-        })
+    req.session.destroy((error) => {
+        if (error) throw error
+        res.send(req.session)
     })
 })
 
@@ -99,9 +97,9 @@ app.post('/signup', async (req, response) => {
                 newUser.email = email
                 await newUser.save()
             })
-            return response.send("user sent")
+            return response.json({msg: 'Successfully created user'})
         }
-        return response.send("user exists already")
+        return response.json({msg: 'user exists already'})
     }).catch((err) => {
         console.log(err)
     })   
@@ -109,9 +107,15 @@ app.post('/signup', async (req, response) => {
 //End Auth endpoints
 
 
+//Middleware to check if user is authenticated
+const verifyUser = (req, res, next) => {
+    if (req.session.userId) return next()
+    return res.json({isLoggedOut: true})
+}
+
 //API calls for app
 //Add games to wishlist 
-app.post('/addgamewishlist', async (req, res) => {
+app.post('/addgamewishlist', verifyUser, async (req, res) => {
     const userId = req.body.id
     const gameObj = req.body.game
                 
@@ -127,7 +131,8 @@ app.post('/addgamewishlist', async (req, res) => {
     })
 })
 
-app.put('/editplayedgame', async (req, res) => {
+// Edits properties (game_status & game_rating) for a game stored in the DB
+app.put('/editplayedgame', verifyUser, async (req, res) => {
     const userId = req.body.userId
     const gameId = req.body.gameId
     const status = req.body.status
@@ -148,7 +153,7 @@ app.put('/editplayedgame', async (req, res) => {
 })
 
 //Add games to played list
-app.post('/addplayedgame', async (req, res) => {
+app.post('/addplayedgame', verifyUser, async (req, res) => {
     const userId = req.body.id
     const gameObj = req.body.game
                     
@@ -165,7 +170,7 @@ app.post('/addplayedgame', async (req, res) => {
 })
 
 //Deletes game from played list
-app.delete('/deleteplayedgame', async (req, res) => {
+app.delete('/deleteplayedgame', verifyUser, async (req, res) => {
     const userId = req.body.userId
     const gameId = req.body.gameId
 
@@ -186,7 +191,7 @@ app.delete('/deleteplayedgame', async (req, res) => {
 })
 
 //Deletes game from wishlist
-app.delete('/deletewishlistgame', async (req, res) => {
+app.delete('/deletewishlistgame', verifyUser, async (req, res) => {
     const userId = req.body.userId
     const gameId = req.body.gameId
 
