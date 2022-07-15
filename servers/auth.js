@@ -109,18 +109,18 @@ app.post('/login', async (req, res) => {
 app.post('/signup', async (req, response) => {
     const email = req.body.email
     const username = req.body.username
-    const password = req.body.username
-    const user = req.body
-
+    const password = req.body.password
 
     //Checks for any existing email
     await UserModel.find({email: email})
     .then((res) => {
         if (res.length == 0) {
-            bcrypt.hash(user.password, saltRound, async (err, hash) => {
+            bcrypt.hash(password, saltRound, async (err, hash) => {
                 if (err) console.log(err)
-                user.password = hash
-                const newUser = new UserModel(user)
+                const newUser = new UserModel()
+                newUser.username = username
+                newUser.password = hash
+                newUser.email = email
                 await newUser.save()
             })
             return response.send("user sent")
