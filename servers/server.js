@@ -7,24 +7,48 @@ const UserModel = require("./model/user")
 const session = require('express-session')
 const cors = require("cors");
 const bcrypt = require("bcrypt")
+const { Store } = require('express-session')
 const saltRound = 10;
 
 app.use(express.json());
 app.use(cors());
 app.use(session({
-    secret
+    name: "uGameSession",
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: 60 * 60 * 24,
+    }
 }))
 
 //MongoDB config
 const URL_DB = process.env.URL_DB
 mongoose.connect(URL_DB, {useNewUrlParser: true})
 
+//Middleware to check if user is authenticated
+const verifyUser = (req, res, next) => {
+    if (req.session.user) next()
+    else next('route')
+}
 
+
+//Authenicating Users
 //Logout endpoint; existing users get to sign off, removing refresh token and access token
 app.post('/logout', async (req, res) => {
-    const userId = req.body._id
-    await UserModel.findByIdAndUpdate(userId, {refresh_token: null})
-    return res.json({isLoggedIn: false})    
+    const sid = req.body.sid
+    Store.ge
+    req.session.user = null
+    console.log(req.session)
+
+    req.session.save((err) => {
+        if (err) next(err)
+
+        req.session.regenerate((err) => {
+            if (err) next(err)
+            return res.json({isLoggedOut: true, session: {userId: req.session.user}})
+        })
+    })
 })
 
 //Login endpoint; existing users are able to log back, giving them both an access token & refresh token
@@ -33,17 +57,15 @@ app.post('/login', async (req, res) => {
     const password = req.body.password
 
     await UserModel.find({email: email})
-    .then((query) => {
+    .then((user) => {
 
-        if (query.length != 0){
-            const loginUser = JSON.parse(JSON.stringify(query))
-            
-            bcrypt.compare(password, loginUser[0].password, (err, isPasswordCorrect) => {
+        if (user.length != 0){
+            bcrypt.compare(password, user[0].password, (err, isPasswordCorrect) => {
                 if (err) throw err
                 
                 if (isPasswordCorrect){
-                    
-
+                    req.session.userId = user[0].id
+                    res.json({session: req.session, sid: req.session.id})
                 } else {
                     return res.json({isPasswordIncorrect: true})
                 }
@@ -84,7 +106,10 @@ app.post('/signup', async (req, response) => {
         console.log(err)
     })   
 })
+//End Auth endpoints
 
+
+//API calls for app
 //Add games to wishlist 
 app.post('/addgamewishlist', async (req, res) => {
     const userId = req.body.id
