@@ -4,31 +4,89 @@ const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
 const UserModel = require("./model/user")
+const session = require('express-session')
 const cors = require("cors");
-const jwt = require('jsonwebtoken')
-
+const bcrypt = require("bcrypt")
+const saltRound = 10;
 
 app.use(express.json());
 app.use(cors());
+app.use(session({
+    secret
+}))
 
 //MongoDB config
 const URL_DB = process.env.URL_DB
 mongoose.connect(URL_DB, {useNewUrlParser: true})
 
-const verifyToken = (req, res, next) => {
-    const bearerHeader = req.headers['authorization']
-    const token = bearerHeader && bearerHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401)
 
-    jwt.verify(token, process.env.ACCESS_KEY, (error, bearerToken) => {
-        if (error) return res.sendStatus(403)
-        req.token = bearerToken
-        next()
+//Logout endpoint; existing users get to sign off, removing refresh token and access token
+app.post('/logout', async (req, res) => {
+    const userId = req.body._id
+    await UserModel.findByIdAndUpdate(userId, {refresh_token: null})
+    return res.json({isLoggedIn: false})    
+})
+
+//Login endpoint; existing users are able to log back, giving them both an access token & refresh token
+app.post('/login', async (req, res) => {
+    const email = req.body.email
+    const password = req.body.password
+
+    await UserModel.find({email: email})
+    .then((query) => {
+
+        if (query.length != 0){
+            const loginUser = JSON.parse(JSON.stringify(query))
+            
+            bcrypt.compare(password, loginUser[0].password, (err, isPasswordCorrect) => {
+                if (err) throw err
+                
+                if (isPasswordCorrect){
+                    
+
+                } else {
+                    return res.json({isPasswordIncorrect: true})
+                }
+            })
+
+        } else {
+            return res.json({userNotFound: true})
+        }
+        
     })
-}
+    .catch((error) => {
+        return res.json({error: error})
+    }) 
+})
+
+//Sign up endpoint; new users are created here
+app.post('/signup', async (req, response) => {
+    const email = req.body.email
+    const username = req.body.username
+    const password = req.body.password
+
+    //Checks for any existing email
+    await UserModel.find({email: email})
+    .then((res) => {
+        if (res.length == 0) {
+            bcrypt.hash(password, saltRound, async (err, hash) => {
+                if (err) console.log(err)
+                const newUser = new UserModel()
+                newUser.username = username
+                newUser.password = hash
+                newUser.email = email
+                await newUser.save()
+            })
+            return response.send("user sent")
+        }
+        return response.send("user exists already")
+    }).catch((err) => {
+        console.log(err)
+    })   
+})
 
 //Add games to wishlist 
-app.post('/addgamewishlist', verifyToken, async (req, res) => {
+app.post('/addgamewishlist', async (req, res) => {
     const userId = req.body.id
     const gameObj = req.body.game
                 
@@ -44,7 +102,7 @@ app.post('/addgamewishlist', verifyToken, async (req, res) => {
     })
 })
 
-app.put('/editplayedgame', verifyToken, async (req, res) => {
+app.put('/editplayedgame', async (req, res) => {
     const userId = req.body.userId
     const gameId = req.body.gameId
     const status = req.body.status
@@ -65,7 +123,7 @@ app.put('/editplayedgame', verifyToken, async (req, res) => {
 })
 
 //Add games to played list
-app.post('/addplayedgame', verifyToken, async (req, res) => {
+app.post('/addplayedgame', async (req, res) => {
     const userId = req.body.id
     const gameObj = req.body.game
                     
@@ -82,7 +140,7 @@ app.post('/addplayedgame', verifyToken, async (req, res) => {
 })
 
 //Deletes game from played list
-app.delete('/deleteplayedgame', verifyToken, async (req, res) => {
+app.delete('/deleteplayedgame', async (req, res) => {
     const userId = req.body.userId
     const gameId = req.body.gameId
 
@@ -103,7 +161,7 @@ app.delete('/deleteplayedgame', verifyToken, async (req, res) => {
 })
 
 //Deletes game from wishlist
-app.delete('/deletewishlistgame', verifyToken, async (req, res) => {
+app.delete('/deletewishlistgame', async (req, res) => {
     const userId = req.body.userId
     const gameId = req.body.gameId
 
