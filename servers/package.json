@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startApi": "nodemon api.js",
-    "startAuth": "nodemon auth.js"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
