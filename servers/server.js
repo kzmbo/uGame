@@ -15,7 +15,11 @@ const URL_DB = process.env.URL_DB
 mongoose.connect(URL_DB, {useNewUrlParser: true})
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:3000"],
+    methods: ["POST", "PUT", "DELETE", "GET"],
+    credentials: true
+}));
 app.use(express.urlencoded({ extended: true }));
 
 //Initialized collections for storing sessions
@@ -33,9 +37,11 @@ app.use(session({
     name: "uGameSession",
     secret: process.env.SECRET_KEY,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         maxAge: 3600000, // One hour in Milliseconds
+        httpOnly: false,
+        sameSite: true
     },
     store: store
 }))
@@ -63,14 +69,14 @@ app.post('/login', async (req, res) => {
                 
                 if (isPasswordCorrect){
                     req.session.userId = user[0].id
-                    res.json({session: req.session, sid: req.session.id, isLoggedIn: true})
+                    res.json({id: user[0].id, isLoggedIn: true})
                 } else {
-                    return res.json({isPasswordIncorrect: true})
+                    return res.json({isLoggedIn: false})
                 }
             })
 
         } else {
-            return res.json({userNotFound: true})
+            return res.json({msg: 'Log In Error! User is not found', isLoggedIn: false})
         }
         
     })
