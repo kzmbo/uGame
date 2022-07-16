@@ -45,7 +45,7 @@ app.use(session({
 app.post('/logout', async (req, res) => {
     req.session.destroy((error) => {
         if (error) throw error
-        res.send(req.session)
+        res.json({session: req.session, isLoggedIn: false})
     })
 })
 
@@ -63,7 +63,7 @@ app.post('/login', async (req, res) => {
                 
                 if (isPasswordCorrect){
                     req.session.userId = user[0].id
-                    res.json({session: req.session, sid: req.session.id})
+                    res.json({session: req.session, sid: req.session.id, isLoggedIn: true})
                 } else {
                     return res.json({isPasswordIncorrect: true})
                 }
@@ -85,6 +85,10 @@ app.post('/signup', async (req, response) => {
     const username = req.body.username
     const password = req.body.password
 
+    if (email.length === 0 || username.length === 0 || password.length == 0) return response.json({
+        msg: 'Sign Up Failed. Please fill in the fields correctly!', isSignedUp: false 
+    })
+
     //Checks for any existing email
     await UserModel.find({email: email})
     .then((res) => {
@@ -97,9 +101,10 @@ app.post('/signup', async (req, response) => {
                 newUser.email = email
                 await newUser.save()
             })
-            return response.json({msg: 'Successfully created user'})
+
+            return response.json({msg: 'Successfully created user', isSignedUp: true})
         }
-        return response.json({msg: 'user exists already'})
+        return response.json({msg: 'Sign Up Failed. Email already exists!', isSignedUp: false})
     }).catch((err) => {
         console.log(err)
     })   
@@ -110,7 +115,7 @@ app.post('/signup', async (req, response) => {
 //Middleware to check if user is authenticated
 const verifyUser = (req, res, next) => {
     if (req.session.userId) return next()
-    return res.json({isLoggedOut: true})
+    return res.json({isLoggedIn: false})
 }
 
 //API calls for app
