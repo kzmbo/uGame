@@ -2,15 +2,17 @@ import React from 'react'
 import { useContext } from 'react'
 import { Outlet, Navigate, useLocation } from 'react-router-dom'
 import { AuthContext } from '../context/AuthProvider'
-import Login from '../views/Login'
+import cookies from 'react-cookies'
 
 const ProtectedRoutes = () => {
   const { authUser, setAuth } = useContext(AuthContext)
   const location = useLocation()
 
+  const session = cookies.load('uGameSession')
+
   return(
     <>
-      {(Object.keys(authUser).length !== 0) ? <Outlet /> : <Navigate to='/login' state={{from: location}} replace />}
+      {(session !== undefined) ? <Outlet /> : <Navigate to='/login' state={{from: location}} replace />}
     </>
     
   )

@@ -1,10 +1,16 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import Axios from 'axios'
+import { Outlet, Navigate, useLocation } from 'react-router-dom'
+import cookies from 'react-cookies'
 
-const UserPersistance = (req, res) => {
-    console.log(req.session)
+const UserPersistance = () => {
+    const session = cookies.load('uGameSession')
+
     return (
-        <Outlet />
+        <>
+            {(session !== undefined)  ? <Navigate to='/dashboard' replace={true} /> : <Navigate to='/login' replace={true}/>}
+        </>
+        
     )
 }
 
