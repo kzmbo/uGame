@@ -1,6 +1,6 @@
 import React from 'react'
+import { useState, useContext } from 'react'
 import { Link } from "react-router-dom"
-import Signup from './Signup'
 
 const Login = () => {
   return (
@@ -34,8 +34,8 @@ const Login = () => {
             </div>
             <p className='absolute bottom-5 right-5'>Wanna contribute? <a className='text-blue' href='https://github.com/kzmbo/uGame/tree/main' target='_blank'>Check out my repo on GitHub!</a></p>
         </div>
-        
     </div>
+    
   )
 }
 
