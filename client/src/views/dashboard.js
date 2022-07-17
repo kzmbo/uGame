@@ -3,7 +3,6 @@ import Axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthProvider'
 import { useParams, useNavigate } from 'react-router-dom'
-import GameElem from '../components/GameElem'
 
 const Dashboard = () => {
   const navigate = useNavigate()
