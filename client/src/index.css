@@ -66,6 +66,11 @@
   .subtext-login-signup {
     @apply text-sm text-center font-light md:text-base
   }
+
+  /**/
+  /* Dashboard */
+  /**/
+  
 }
 
 
