@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { BrowserRouter, Routes, Route, Link,  } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom"
 import ProtectedRoutes from './components/ProtectedRoutes';
 import Login from './views/Login';
 import Signup from './views/Signup';
@@ -11,22 +11,26 @@ import { useState, useContext } from 'react';
 
 function App() {
   const [authUser, setAuth] = useState({})
+  let { userID } = useParams()
+  userID = authUser.userID
   Axios.defaults.withCredentials = true
+
 
   return (
     <BrowserRouter>
       <AuthContext.Provider value={{authUser, setAuth}}>
         <Routes>
-          
-          <Route path='/' index element={<Login />} />
+          <Route path='/' index element={<UserPersistance />} />
           <Route path='/login' element={<Login />}/>
           <Route path='/signup' element={<Signup />} />
 
           <Route element={<UserPersistance />}>
             <Route element={<ProtectedRoutes />}>
-              <Route path='/dashboard' element={<Dashboard />}/>
+              <Route path='/dashboard/:userID' element={<Dashboard />}/>
             </Route>
           </Route>
+
+          <Route path='*' element={<UserPersistance />} />
 
         </Routes>
       </AuthContext.Provider>
