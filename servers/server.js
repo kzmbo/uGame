@@ -15,7 +15,11 @@ const URL_DB = process.env.URL_DB
 mongoose.connect(URL_DB, {useNewUrlParser: true})
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:3000"],
+    methods: ["POST", "PUT", "DELETE", "GET"],
+    credentials: true
+}));
 app.use(express.urlencoded({ extended: true }));
 
 //Initialized collections for storing sessions
@@ -33,19 +37,53 @@ app.use(session({
     name: "uGameSession",
     secret: process.env.SECRET_KEY,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         maxAge: 3600000, // One hour in Milliseconds
+        httpOnly: false,
+        sameSite: true
     },
     store: store
 }))
 
-//Authenicating Users
+// Authenicating Users
+// Retrieves userId and sid if there's a cookie
+app.get('/login', async (req, res) => {
+    let isLoggedIn = false
+    let user = null
+    if (req.session.userId) {
+        isLoggedIn = true
+        await UserModel.findById(req.session.userId, 'username game_list')
+        .then((response) => {
+            user = response
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+    return res.json({userId: req.session.userId, user: user, sid: req.sessionID, isLoggedIn: isLoggedIn})
+})
+
+app.post('/getuser', async (req, res) => {
+    const userID = req.body.userID
+    if (userID) {
+        await UserModel.findById(userID, 'username game_list')
+        .then((user) => {
+            console.log(user)
+            res.send(user)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+})
+
+
 //Logout endpoint; existing users get to sign off, removing refresh token and access token
 app.post('/logout', async (req, res) => {
     req.session.destroy((error) => {
         if (error) throw error
-        res.json({session: req.session, isLoggedIn: false})
+        res.clearCookie('uGameSession').send({isLoggedIn: false})
     })
 })
 
@@ -63,14 +101,14 @@ app.post('/login', async (req, res) => {
                 
                 if (isPasswordCorrect){
                     req.session.userId = user[0].id
-                    res.json({session: req.session, sid: req.session.id, isLoggedIn: true})
+                    res.json({userID: user[0].id, sid: req.sessionID, isLoggedIn: true})
                 } else {
-                    return res.json({isPasswordIncorrect: true})
+                    return res.json({isLoggedIn: false})
                 }
             })
 
         } else {
-            return res.json({userNotFound: true})
+            return res.json({msg: 'Log In Error! User is not found', isLoggedIn: false})
         }
         
     })
