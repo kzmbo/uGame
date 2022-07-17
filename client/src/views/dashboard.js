@@ -86,10 +86,12 @@ const Dashboard = () => {
 
         <div className='my-2'></div>
 
-        <div>
-          <label className=''>Search Title</label>
-          <input type='text' />
+        <div className='text-center'>
+          <label className='text-field-labels'>Search Titles</label>
+          <input type='text' className='dashboard-text-field '/>
         </div>
+
+        <div className='my-8'></div>
         
         <div>
           {isDisplayingPlayedGames ? <DisplayGamePlayed /> : <DisplayGameWishlist />}

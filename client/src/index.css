@@ -116,6 +116,10 @@
     @apply h-20 border
   }
 
+  .dashboard-text-field {
+    @apply bg-transparent border rounded-lg px-2 w-3/4 text-sm mt-2 mb-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
+  }
+
 
 
 
