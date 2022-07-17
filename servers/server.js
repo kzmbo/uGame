@@ -46,12 +46,44 @@ app.use(session({
     store: store
 }))
 
-//Authenicating Users
+// Authenicating Users
+// Retrieves userId and sid if there's a cookie
+app.get('/login', async (req, res) => {
+    let isLoggedIn = false
+    let user = null
+    if (req.session.userId) {
+        isLoggedIn = true
+        await UserModel.findById(req.session.userId, 'username game_list')
+        .then((response) => {
+            user = response
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+    return res.json({userId: req.session.userId, user: user, sid: req.sessionID, isLoggedIn: isLoggedIn})
+})
+
+app.post('/getuser', async (req, res) => {
+    const userID = req.body.userID
+    if (userID) {
+        await UserModel.findById(userID, 'username game_list')
+        .then((user) => {
+            console.log(user)
+            res.send(user)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+})
+
+
 //Logout endpoint; existing users get to sign off, removing refresh token and access token
 app.post('/logout', async (req, res) => {
     req.session.destroy((error) => {
         if (error) throw error
-        res.json({session: req.session, isLoggedIn: false})
+        res.clearCookie('uGameSession').send({isLoggedIn: false})
     })
 })
 
@@ -69,7 +101,7 @@ app.post('/login', async (req, res) => {
                 
                 if (isPasswordCorrect){
                     req.session.userId = user[0].id
-                    res.json({id: user[0].id, isLoggedIn: true})
+                    res.json({userID: user[0].id, sid: req.sessionID, isLoggedIn: true})
                 } else {
                     return res.json({isLoggedIn: false})
                 }
