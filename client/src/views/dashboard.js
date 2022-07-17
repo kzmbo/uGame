@@ -35,11 +35,12 @@ const Dashboard = () => {
           <img src='' alt='game-screenshot' />
           <div>
             <div>
-              <h1>{index + 1}.</h1>
               <h1>{game.game_title}</h1>
+              <h1>{game.game_rating} / 10 ★</h1>
             </div>
               <h1>Status: {game.game_status}</h1>
-              <h1>Rating: {game.game_rating} / 10</h1>
+              <h1>Hours Played: </h1>
+              
           </div>
           <button>Edit</button>
         </div>
@@ -50,57 +51,75 @@ const Dashboard = () => {
   const DisplayGameWishlist = () => {
     return gamesWishlist.map((game, index) => {
       return(
-        <div>
-          <img src='' alt='game-screenshot' />
-          <div>
-            <div>
-              <h1>{index + 1}.</h1>
-              <h1>{game.game_title}</h1>
+        <div key={index} className='p-10'>
+          <div className='dashboard-game-section'>
+            <div className='dashboard-game-img-box'>
+              <img src={game.game_screenshot_uri} alt='game-screenshot' className='dashboard-game-img'/>
             </div>
-              <h1>Status: {game.game_status}</h1>
-              <h1>Rating: {game.game_rating} / 10</h1>
+            
+            <div className='dashboard-game-textbox relative'>
+              <div className='dashboard-game-textbox-title-rating-section'>
+                <h1 className='dashboard-game-title'>{game.game_title}</h1>
+                <h1 className='dashboard-game-rating'>{game.game_rating} / 10 ★</h1>
+              </div>
+              <div className='dashboard-game-textbox-subinfo-section'>
+                <h1 className='dashboard-game-subtext-heading'>Status: <p className='dashboard-game-subtext-info'>{game.game_status}</p></h1>
+                <h1 className='dashboard-game-subtext-heading'>Hours Played: <p className='dashboard-game-subtext-info'>123 hours</p></h1>
+                <div>
+                  <h1 className='dashboard-game-subtext-heading'>Played On: </h1>
+                  {}
+                </div>
+              </div>
+              <button className='dashboard-game-edit-btn'>Edit</button>
+            </div>
           </div>
-          <button>Edit</button>
         </div>
+      
       )
     })
   }
 
   return (
     <div className='bg-dashboard'>
-        <div className='dashboard-header'>
-          <h1 className='self-center text-2xl font-semibold p-3'>uGame</h1>
-          <div className='dashboard-header-logout-section'>
-            <p className='dashboard-header-signin-status '>Signed in as {username} </p>
-            <button className='dashboard-logout-btn' onClick={logoutUser}>Logout</button>
+        <div className='bg-white pb-5'>
+          <div className='dashboard-header'>
+            <h1 className='self-center text-2xl font-semibold p-3'>uGame</h1>
+            <div className='dashboard-header-logout-section'>
+              <p className='dashboard-header-signin-status '>Signed in as {username} </p>
+              <button className='dashboard-logout-btn' onClick={logoutUser}>Logout</button>
+            </div>
+        </div>
+
+          {/* <div className='my-2'></div> */}
+
+          <div className='dashboard-select-section'>
+            <button className={isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"}>Library</button>
+            <div className='dashboard-line'></div>
+            <button className={!isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"}>Wishlist</button>
+          </div>
+
+          {/* <div className='my-2'></div> */}
+
+          <div className='text-center'>
+            <label className='text-field-labels'>Search Titles</label>
+            <input type='text' className='dashboard-text-field '/>
           </div>
         </div>
 
-        <div className='my-2'></div>
-
-        <div className='dashboard-select-section'>
-          <button className={isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"}>Library</button>
-          <div className='dashboard-line'></div>
-          <button className={!isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"}>Wishlist</button>
-        </div>
-
-        <div className='my-2'></div>
-
-        <div className='text-center'>
-          <label className='text-field-labels'>Search Titles</label>
-          <input type='text' className='dashboard-text-field '/>
-        </div>
-
-        <div className='my-8'></div>
+        {/* <div className='my-2'></div> */}
         
         <div>
           {isDisplayingPlayedGames ? <DisplayGamePlayed /> : <DisplayGameWishlist />}
         </div>
         
-        <div>
-            <h1>Add Game</h1>
-            <button>+</button>
-        </div>
+        {/* <div className='my-16'></div> */}
+
+        {/* <div className='flex justify-end px-5 py-2 fixed bottom-0 bg-black/80 text-white'>
+            <h1 className='px-5 self-center font-semibold text-xl'>Add Game</h1>
+            <div className='flex justify-center items-center'>
+              <button className='w-12 h-12 rounded-full border text-xl'>+</button>
+            </div>
+        </div> */}
     </div>
   )
 }

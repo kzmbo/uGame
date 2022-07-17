@@ -73,7 +73,7 @@
   
   /* Background for the dashboard page */
   .bg-dashboard {
-    @apply bg-black text-white h-screen w-screen lg:w-1/2
+    @apply bg-dark-white text-black w-full h-full overflow-auto
   }
 
   /* Header for the dashboard */
@@ -93,7 +93,7 @@
 
   /* Logout btn */
   .dashboard-logout-btn {
-    @apply border font-semibold text-sm px-4 rounded-md
+    @apply border border-black font-semibold text-sm px-4 rounded-md
   }
 
   /* Section where user picks whether to display played games or games on their wishlist */
@@ -103,21 +103,68 @@
   
   /* Button for the inactive page from the two options (played/wishlist) */
   .dashboard-select-btn {
-    @apply px-16 
+    @apply px-16 text-xl
   }
 
   /* Button for active page from the two options (played/wishlist) */
   .btn_ACTIVE {
-    @apply px-16 underline underline-offset-8
+    @apply px-16 underline underline-offset-8 text-xl
   }
 
   /* Line that seperates the two btns */
   .dashboard-line {
-    @apply h-20 border
+    @apply h-20 border border-black
   }
 
+  /* Searchbar for the dashboard */
   .dashboard-text-field {
-    @apply bg-transparent border rounded-lg px-2 w-3/4 text-sm mt-2 mb-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
+    @apply bg-transparent border border-black rounded-lg w-2/3 px-2 text-sm my-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
+  }
+
+  /* Section for the Game Element */
+  .dashboard-game-section {
+    @apply bg-dashboard-card-w text-black rounded-xl shadow-xl hover:shadow-2xl
+  }
+
+  /* Game screenshot img */
+  .dashboard-game-img {
+    @apply w-full h-44 object-top object-cover rounded-xl 
+  }
+
+  /* Section that contains info about that game */
+  .dashboard-game-textbox {
+    @apply w-full h-52 bg-dashboard-card-w rounded-b-xl
+  }
+
+  /* Section containing the game title and rating */
+  .dashboard-game-textbox-title-rating-section {
+    @apply flex justify-between px-3 py-5
+  }
+
+  /* Game Title */
+  .dashboard-game-title {
+    @apply text-2xl font-bold
+  }
+
+  /* Game Rating */
+  .dashboard-game-rating {
+    @apply text-2xl font-semibold
+  }
+
+  .dashboard-game-textbox-subinfo-section {
+    @apply px-3 pt-3 pb-10 text-lg
+  }
+
+  .dashboard-game-subtext-heading {
+    @apply flex justify-start font-bold
+  }
+
+  .dashboard-game-subtext-info {
+    @apply font-normal px-2
+  }
+
+  .dashboard-game-edit-btn {
+    @apply text-black text-lg font-semibold absolute bottom-0 right-0 px-4 py-1
   }
 
 
@@ -127,7 +174,8 @@
 
 
 body {
-  margin: 0;
+  margin: 0px;
+  padding: 0px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
