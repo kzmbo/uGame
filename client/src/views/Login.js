@@ -38,7 +38,7 @@ const Login = () => {
             const user = response.data
             if (isLoggedIn) {
                 setAuth(user)
-                navigate('/dashboard', {replace: true})
+                navigate(`/dashboard/${user.userID}`, {replace: true})
             }
            
         })
