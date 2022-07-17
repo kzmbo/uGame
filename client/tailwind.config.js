@@ -9,6 +9,8 @@ module.exports = {
         'black': '#151515',
         'blue': '#6AC9FB',
         'white': '#E4E4E4',
+        'dashboard-card-w': '#DADADA',
+        'dark-white': '#CACACA', 
         'red': '#cc0000',
         'green': '#50C878'
       }
