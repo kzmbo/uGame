@@ -67,12 +67,12 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
-        <div>
-          <h1>uGame</h1>
-          <div>
-            <p>Signed in as {username} </p>
-            <button onClick={logoutUser}>Logout</button>
+    <div className='bg-dashboard'>
+        <div className='dashboard-header'>
+          <h1 className='self-center text-2xl font-semibold p-3'>uGame</h1>
+          <div className='dashboard-header-logout-section'>
+            <p className='dashboard-header-signin-status '>Signed in as {username} </p>
+            <button className='dashboard-logout-btn' onClick={logoutUser}>Logout</button>
           </div>
         </div>
 

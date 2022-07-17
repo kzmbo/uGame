@@ -71,6 +71,32 @@
   /* Dashboard */
   /**/
   
+  /* Background for the dashboard page */
+  .bg-dashboard {
+    @apply bg-black text-white h-screen w-screen lg:w-1/2
+  }
+
+  /* Header for the dashboard */
+  .dashboard-header {
+    @apply flex justify-around content-center
+  }
+
+  /* Login as username and logout btn section */
+  .dashboard-header-logout-section {
+    @apply flex justify-between content-center text-sm my-4 w-56
+  }
+
+  /* "Signed in as username" */
+  .dashboard-header-signin-status {
+    @apply text-sm py-1
+  }
+
+  /* Logout btn */
+  .dashboard-logout-btn {
+    @apply border font-semibold text-sm px-4 rounded-md
+  }
+
+
 }
 
 
