@@ -96,6 +96,28 @@
     @apply border font-semibold text-sm px-4 rounded-md
   }
 
+  /* Section where user picks whether to display played games or games on their wishlist */
+  .dashboard-select-section {
+    @apply flex justify-evenly p-5
+  }
+  
+  /* Button for the inactive page from the two options (played/wishlist) */
+  .dashboard-select-btn {
+    @apply px-16 
+  }
+
+  /* Button for active page from the two options (played/wishlist) */
+  .btn_ACTIVE {
+    @apply px-16 underline underline-offset-8
+  }
+
+  /* Line that seperates the two btns */
+  .dashboard-line {
+    @apply h-20 border
+  }
+
+
+
 
 }
 

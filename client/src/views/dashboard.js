@@ -76,14 +76,18 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div>
-          <h3>Games I've Played</h3>
-          <div></div>
-          <h3>Games I Want To Play</h3>
+        <div className='my-2'></div>
+
+        <div className='dashboard-select-section'>
+          <button className={isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"}>Library</button>
+          <div className='dashboard-line'></div>
+          <button className={!isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"}>Wishlist</button>
         </div>
 
+        <div className='my-2'></div>
+
         <div>
-          <label>Search Title</label>
+          <label className=''>Search Title</label>
           <input type='text' />
         </div>
         
