@@ -24,7 +24,7 @@
 
   /* The section for the login and signup page */
   .login-sign-section {
-    @apply bg-black text-white h-screen w-screen lg:w-1/2
+    @apply bg-dark-white text-black h-screen w-screen lg:w-1/2
   }
 
   /* Title heading for the website "uGame" */
@@ -49,12 +49,12 @@
 
   /* The text field for entering the input (ex. email, username, and password) */
   .text-field {
-    @apply bg-transparent border rounded-lg px-2 py-1 text-sm mt-1 mb-2 mx-10 md:py-1 md:mt-2 md:mb-3 md:text-lg
+    @apply bg-transparent border border-black rounded-lg px-2 py-1 text-sm mt-1 mb-2 mx-10 md:py-1 md:mt-2 md:mb-3 md:text-lg
   }
 
   /* The button for submitting the values in the fields */
   .login-signup-btn {
-    @apply my-4 md:my-6 bg-blue mx-20 py-2 rounded-lg text-black font-semibold md:mx-32 md:text-lg 
+    @apply my-4 md:my-6 text-xl bg-dark-blue mx-20 py-2 rounded-lg text-black font-bold md:mx-32 md:text-lg 
   }
 
   /* Error text when user incorrectly fills in the fields */
@@ -73,90 +73,99 @@
   
   /* Background for the dashboard page */
   .bg-dashboard {
-    @apply bg-dark-white text-black w-full h-full overflow-auto
+    @apply bg-dark-white text-black w-full h-full overflow-auto md:h-screen
   }
 
   /* Header for the dashboard */
   .dashboard-header {
-    @apply flex justify-around content-center
+    @apply flex content-center justify-between px-10
+  }
+
+  .dashboard-header-logo {
+    @apply self-center text-2xl font-semibold py-6 md:text-3xl
   }
 
   /* Login as username and logout btn section */
   .dashboard-header-logout-section {
-    @apply flex justify-between content-center text-sm my-4 w-56
+    @apply flex justify-between content-center text-sm my-4 w-56 md:w-72
   }
 
   /* "Signed in as username" */
   .dashboard-header-signin-status {
-    @apply text-sm py-1
+    @apply text-sm py-1 md:text-xl md:py-2 
   }
 
   /* Logout btn */
   .dashboard-logout-btn {
-    @apply border border-black font-semibold text-sm px-4 rounded-md
+    @apply border border-black font-semibold text-sm px-4 rounded-md md:text-xl
   }
 
   /* Section where user picks whether to display played games or games on their wishlist */
   .dashboard-select-section {
-    @apply flex justify-evenly p-5
+    @apply flex justify-evenly p-5 
   }
   
   /* Button for the inactive page from the two options (played/wishlist) */
   .dashboard-select-btn {
-    @apply px-16 text-xl
+    @apply px-16 text-xl md:text-3xl
   }
 
   /* Button for active page from the two options (played/wishlist) */
   .btn_ACTIVE {
-    @apply px-16 underline underline-offset-8 text-xl
+    @apply px-16 underline underline-offset-8 text-xl md:text-3xl
   }
 
   /* Line that seperates the two btns */
   .dashboard-line {
-    @apply h-20 border border-black
+    @apply h-20 border border-black md:h-28
+  }
+
+  /* The labels for the searchbar */
+  .dashboard-text-field-label {
+    @apply text-base font-normal mx-10 md:text-2xl block
   }
 
   /* Searchbar for the dashboard */
   .dashboard-text-field {
-    @apply bg-transparent border border-black rounded-lg w-2/3 px-2 text-sm my-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
+    @apply bg-transparent border border-black rounded-lg w-3/5 px-2 text-sm my-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
   }
 
   /* Section for the Game Element */
   .dashboard-game-section {
-    @apply bg-dashboard-card-w text-black rounded-xl shadow-xl hover:shadow-2xl
+    @apply bg-dashboard-card-w text-black rounded-xl shadow-xl hover:shadow-2xl 
   }
 
   /* Game screenshot img */
   .dashboard-game-img {
-    @apply w-full h-44 object-top object-cover rounded-xl 
+    @apply w-full h-44 object-top object-cover rounded-xl md:h-52
   }
 
   /* Section that contains info about that game */
   .dashboard-game-textbox {
-    @apply w-full h-52 bg-dashboard-card-w rounded-b-xl
+    @apply w-full h-52 bg-dashboard-card-w rounded-b-xl md:h-60
   }
 
   /* Section containing the game title and rating */
   .dashboard-game-textbox-title-rating-section {
-    @apply flex justify-between px-3 py-5
+    @apply flex justify-between px-3 py-5 md:px-4 lg:px-10
   }
 
   /* Game Title */
   .dashboard-game-title {
-    @apply text-2xl font-bold
+    @apply text-2xl font-bold md:text-2xl
   }
 
   /* Game Rating */
   .dashboard-game-rating {
-    @apply text-2xl font-semibold
+    @apply text-2xl font-semibold md:text-2xl
   }
 
   .dashboard-game-textbox-subinfo-section {
-    @apply px-3 pt-3 pb-10 text-lg
+    @apply px-3 pt-3 pb-10 text-lg md:text-2xl md:px-4 lg:px-10 lg:pt-10
   }
 
   .dashboard-game-subtext-heading {
-    @apply flex justify-start font-bold
+    @apply flex justify-start font-bold md:text-xl
   }
 
   .dashboard-game-subtext-info {
@@ -164,12 +173,16 @@
   }
 
   .dashboard-game-edit-btn {
-    @apply text-black text-lg font-semibold absolute bottom-0 right-0 px-4 py-1
+    @apply text-black text-lg font-semibold absolute bottom-0 right-0 px-4 py-1 md:text-2xl md:py-4 md:px-6
   }
 
+  .game-card-md {
+    @apply grid grid-cols-2
+  }
 
-
-
+  .game-card-lg {
+    @apply grid grid-cols-3 
+  }
 }
 
 
