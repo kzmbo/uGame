@@ -5,6 +5,8 @@ import { AuthContext } from '../context/AuthProvider'
 import { useParams, useNavigate } from 'react-router-dom'
 import { DisplayAddGame } from '../context/DisplayAddGame'
 import AddGame from '../components/AddGame'
+import GamePlayed from '../components/GamePlayed'
+import GameWishlist from '../components/GameWishlist'
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -32,57 +34,6 @@ const Dashboard = () => {
     })
   }
 
-  const DisplayGamePlayed = () => {
-    return gamesPlayed.map((game, index) => {
-      return(
-        <div>
-          <img src='' alt='game-screenshot' />
-          <div>
-            <div>
-              <h1>{game.game_title}</h1>
-              <h1>{game.game_rating} / 10 ★</h1>
-            </div>
-              <h1>Status: {game.game_status}</h1>
-              <h1>Hours Played: </h1>
-              
-          </div>
-          <button>Edit</button>
-        </div>
-      )
-    })
-  }
-
-  const DisplayGameWishlist = () => {
-    return gamesWishlist.map((game, index) => {
-      return(
-        <div key={index} className='p-4 py-10 md:p-10'>
-          <div className='dashboard-game-section'>
-            <div className='dashboard-game-img-box'>
-              <img src={game.game_screenshot_uri} alt='game-screenshot' className='dashboard-game-img'/>
-            </div>
-            
-            <div className='dashboard-game-textbox relative'>
-              <div className='dashboard-game-textbox-title-rating-section'>
-                <h1 className='dashboard-game-title'>{game.game_title}</h1>
-                <h1 className='dashboard-game-rating'>{game.game_rating} / 10 ★</h1>
-              </div>
-              <div className='dashboard-game-textbox-subinfo-section'>
-              <h1 className='dashboard-game-subtext-heading'>Released Date: <p className='dashboard-game-subtext-info'>{game.game_release_date}</p></h1>
-                <h1 className='dashboard-game-subtext-heading'>Status: <p className='dashboard-game-subtext-info'>{game.game_status}</p></h1>
-                <h1 className='dashboard-game-subtext-heading'>Hours Played: <p className='dashboard-game-subtext-info'>123 hours</p></h1>
-                <div>
-                  <h1 className='dashboard-game-subtext-heading'>Played On: </h1>
-                  {}
-                </div>
-              </div>
-              <button className='dashboard-game-edit-btn'>Edit</button>
-            </div>
-          </div>
-        </div>
-      )
-    })
-  }
-
   return (
     <DisplayAddGame.Provider value={{displayAddGame, setDisplayAddGame}}>
       <div className='bg-dashboard relative'>
@@ -95,7 +46,7 @@ const Dashboard = () => {
             </div>
         </div>
 
-          {/* <div className='my-2'></div> */}
+          <div className='my-2'></div>
 
           <div className='dashboard-select-section'>
             <button className={isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"} onClick={(e) => {
@@ -109,7 +60,7 @@ const Dashboard = () => {
             }}>Wishlist</button>
           </div>
 
-          {/* <div className='my-2'></div> */}
+          <div className='my-2'></div>
 
           <div className='text-center'>
             <label className='dashboard-text-field-label'>Search Titles</label>
@@ -117,13 +68,13 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* <div className='my-2'></div> */}
+        <div className='my-2'></div>
         
         <div className='md:game-card-md lg:game-card-lg h-full'>
-          {isDisplayingPlayedGames ? <DisplayGamePlayed /> : <DisplayGameWishlist />}
+          {isDisplayingPlayedGames ? <GamePlayed GamesPlayed={gamesPlayed} /> : <GameWishlist GamesWishlist={gamesWishlist} />}
         </div>
        
-        {/* <div className='my-16'></div> */}
+        <div className='my-16'></div>
         
 
         <div className='dashboard-add-game-banner'>
