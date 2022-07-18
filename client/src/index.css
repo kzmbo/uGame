@@ -87,9 +87,9 @@
     @apply flex justify-end content-center text-sm my-4 w-56 md:w-72
   }
 
-  /* "Signed in as username" */
+  /* "Hello, username" */
   .dashboard-header-signin-status {
-    @apply text-sm self-center px-3 py-1 md:text-xl md:py-2 
+    @apply text-sm self-center px-3 py-1 md:text-xl md:py-2 md:px-6
   }
 
   /* Logout btn */
@@ -159,7 +159,7 @@
 
   /* Section that list the info about the user's experience with the game */
   .dashboard-game-textbox-subinfo-section {
-    @apply px-3 pt-3 pb-10 text-lg md:text-2xl md:px-4 lg:px-10 lg:pt-10
+    @apply px-3 pt-3 pb-10 text-lg md:text-2xl md:px-4 lg:px-10 lg:pt-5
   }
 
   /* Heading for Status, Hours Played, and Played on */

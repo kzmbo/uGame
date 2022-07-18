@@ -67,6 +67,7 @@ const Dashboard = () => {
                 <h1 className='dashboard-game-rating'>{game.game_rating} / 10 ★</h1>
               </div>
               <div className='dashboard-game-textbox-subinfo-section'>
+              <h1 className='dashboard-game-subtext-heading'>Released Date: <p className='dashboard-game-subtext-info'>{game.game_release_date}</p></h1>
                 <h1 className='dashboard-game-subtext-heading'>Status: <p className='dashboard-game-subtext-info'>{game.game_status}</p></h1>
                 <h1 className='dashboard-game-subtext-heading'>Hours Played: <p className='dashboard-game-subtext-info'>123 hours</p></h1>
                 <div>
