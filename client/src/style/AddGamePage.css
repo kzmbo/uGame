@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .exit-btn {
+        @apply absolute top-10 right-10 text-xl py-3 px-14 md:text-3xl border border-black rounded-lg hover:bg-blue
+    }
+    
+    .select-btn {
+        @apply px-5 py-10 hover:bg-blue/50
+    }
+}
