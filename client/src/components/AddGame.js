@@ -1,19 +1,38 @@
-import React, { useContext } from 'react'
+
+
+import React, { useContext, useState } from 'react'
 import { DisplayAddGame } from '../context/DisplayAddGame'
+import Axios from 'axios' 
 import './../style/AddGamePage.css';
 import Autocomplete from 'react-autocomplete'
 
 const AddGame = () => {
     const { displayAddGame, setDisplayAddGame} = useContext(DisplayAddGame)
+    const [gameTitle, setGameTitle] = useState('')
 
-    let gameSearchList = ['bloodborne']
+    const game_response = async () => {
+        if (gameTitle.length === 0) return
+        await Axios.get(`https://api.rawg.io/api/games/${gameTitle}?key=c65af6735319413f81c8009fee466c76`)
+    }
+    
 
     const AddToPlayed = () => {
         return(
             <div className='grid grid-cols-1 place-content-center'>
                 <label className='text-field-label-game'>Game Title</label>
                 {/* <input type="text" className='text-field-add-game w-3/4' /> */}
-                
+                <Autocomplete 
+                    getItemValue={(item) => item.name}
+                    items={game_response}
+                    renderItem={(item, isHighlighted) =>
+                        <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                            {item.label}
+                        </div>
+                    }
+                    value={value}
+                    onChange={(e) => value = e.target.value}
+                    onSelect={(val) => value = val}
+                />
                 <label className='text-field-label-game'>Rating (X / 10)</label>
                 <input type="text" className='text-field-add-game w-1/5' />
                 <label className='text-field-label-game'>Hours Played</label>
