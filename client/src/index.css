@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* For making comments, use template below for copy and paste */
-/*  */
-
 @layer components {
 
   /* Split banner and login/signup section into two parts */
@@ -73,12 +70,12 @@
   
   /* Background for the dashboard page */
   .bg-dashboard {
-    @apply bg-dark-white text-black w-full h-full overflow-auto md:h-screen
+    @apply bg-dark-white text-black w-screen md:w-full h-full overflow-auto md:h-screen
   }
 
   /* Header for the dashboard */
   .dashboard-header {
-    @apply flex content-center justify-between px-10
+    @apply flex content-center justify-between px-4 md:px-10 w-screen
   }
 
   .dashboard-header-logo {
@@ -87,17 +84,17 @@
 
   /* Login as username and logout btn section */
   .dashboard-header-logout-section {
-    @apply flex justify-between content-center text-sm my-4 w-56 md:w-72
+    @apply flex justify-end content-center text-sm my-4 w-56 md:w-72
   }
 
   /* "Signed in as username" */
   .dashboard-header-signin-status {
-    @apply text-sm py-1 md:text-xl md:py-2 
+    @apply text-sm self-center px-3 py-1 md:text-xl md:py-2 
   }
 
   /* Logout btn */
   .dashboard-logout-btn {
-    @apply border border-black font-semibold text-sm px-4 rounded-md md:text-xl
+    @apply border border-black font-semibold text-sm px-2 rounded-md md:text-xl
   }
 
   /* Section where user picks whether to display played games or games on their wishlist */
@@ -127,7 +124,7 @@
 
   /* Searchbar for the dashboard */
   .dashboard-text-field {
-    @apply bg-transparent border border-black rounded-lg w-3/5 px-2 text-sm my-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
+    @apply bg-transparent border border-black rounded-lg w-3/4 px-3 text-sm my-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
   }
 
   /* Section for the Game Element */
@@ -160,29 +157,56 @@
     @apply text-2xl font-semibold md:text-2xl
   }
 
+  /* Section that list the info about the user's experience with the game */
   .dashboard-game-textbox-subinfo-section {
     @apply px-3 pt-3 pb-10 text-lg md:text-2xl md:px-4 lg:px-10 lg:pt-10
   }
 
+  /* Heading for Status, Hours Played, and Played on */
   .dashboard-game-subtext-heading {
     @apply flex justify-start font-bold md:text-xl
   }
 
+  /* Info for the Status, Hours Played, and Played on */
   .dashboard-game-subtext-info {
     @apply font-normal px-2
   }
 
+  /* Button for editing the info of that entry */
   .dashboard-game-edit-btn {
     @apply text-black text-lg font-semibold absolute bottom-0 right-0 px-4 py-1 md:text-2xl md:py-4 md:px-6
   }
 
+  /* cards will display in grids of 2 on tablets */
   .game-card-md {
     @apply grid grid-cols-2
   }
 
+  /* cards will display in grids of 3 on desktop/laptop */
   .game-card-lg {
-    @apply grid grid-cols-3 
+    @apply grid grid-cols-3 h-auto
   }
+
+  /* Banner for adding games btn */
+  .dashboard-add-game-banner {
+    @apply w-full flex justify-end px-5 py-2 fixed bottom-0 bg-black/50 text-white 
+  }
+
+  /* Text that prompts user to add game */
+  .dashboard-add-game-text {
+    @apply px-5 self-center font-semibold text-xl
+  }
+
+  /* Applies spacing between text and btn */
+  .dashboard-format-add-game {
+    @apply flex justify-center items-center
+  }
+
+  /* Add game button */
+  .dashboard-add-game-btn {
+    @apply w-12 h-12 rounded-full border text-xl
+  }
+
 }
 
 

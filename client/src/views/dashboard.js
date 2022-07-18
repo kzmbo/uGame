@@ -3,6 +3,8 @@ import Axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthProvider'
 import { useParams, useNavigate } from 'react-router-dom'
+import { DisplayAddGame } from '../context/DisplayAddGame'
+import AddGame from '../components/AddGame'
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -10,7 +12,9 @@ const Dashboard = () => {
   const { userId } = useParams()
   const { authUser, setAuth } = useContext(AuthContext)
   const [ isDisplayingPlayedGames, setGameDisplayStatus ] = useState(false)
-  
+  const [ displayAddGame, setDisplayAddGame ] = useState(false)
+  const [ displayEditGame, setDisplayEditGame ] = useState(false)
+
   const uid = authUser?.userID
   const sid = authUser?.sid
   const username = authUser.user?.username
@@ -51,7 +55,7 @@ const Dashboard = () => {
   const DisplayGameWishlist = () => {
     return gamesWishlist.map((game, index) => {
       return(
-        <div key={index} className='p-10 h-full'>
+        <div key={index} className='p-4 py-10 md:p-10'>
           <div className='dashboard-game-section'>
             <div className='dashboard-game-img-box'>
               <img src={game.game_screenshot_uri} alt='game-screenshot' className='dashboard-game-img'/>
@@ -79,25 +83,32 @@ const Dashboard = () => {
   }
 
   return (
-    <div className='bg-dashboard'>
-        <div className='bg-white pb-5'>
+    <DisplayAddGame.Provider value={{displayAddGame, setDisplayAddGame}}>
+      <div className='bg-dashboard relative'>
+        <div className='bg-white pb-5 w-full overflow-hidden'>
           <div className='dashboard-header'>
             <h1 className='dashboard-header-logo'>uGame</h1>
             <div className='dashboard-header-logout-section'>
-              <p className='dashboard-header-signin-status '>Signed in as {username} </p>
+              <p className='dashboard-header-signin-status '>Hello, {username} </p>
               <button className='dashboard-logout-btn' onClick={logoutUser}>Logout</button>
             </div>
         </div>
 
-          <div className='my-2'></div>
+          {/* <div className='my-2'></div> */}
 
           <div className='dashboard-select-section'>
-            <button className={isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"}>Library</button>
+            <button className={isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"} onClick={(e) => {
+              e.preventDefault()
+              setGameDisplayStatus(prev => !prev)
+            }}>Library</button>
             <div className='dashboard-line'></div>
-            <button className={!isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"}>Wishlist</button>
+            <button className={!isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"} onClick={(e) => {
+              e.preventDefault()
+              setGameDisplayStatus(prev => !prev)
+            }}>Wishlist</button>
           </div>
 
-          <div className='my-2'></div>
+          {/* <div className='my-2'></div> */}
 
           <div className='text-center'>
             <label className='dashboard-text-field-label'>Search Titles</label>
@@ -105,21 +116,28 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className='my-2'></div>
+        {/* <div className='my-2'></div> */}
         
         <div className='md:game-card-md lg:game-card-lg h-full'>
           {isDisplayingPlayedGames ? <DisplayGamePlayed /> : <DisplayGameWishlist />}
         </div>
+       
+        {/* <div className='my-16'></div> */}
         
-        <div className='my-16'></div>
 
-        <div className='w-full flex justify-end px-5 py-2 fixed bottom-0 bg-black/80 text-white'>
-            <h1 className='px-5 self-center font-semibold text-xl'>Add Game</h1>
-            <div className='flex justify-center items-center'>
-              <button className='w-12 h-12 rounded-full border text-xl'>+</button>
+        <div className='dashboard-add-game-banner'>
+            <h1 className='dashboard-add-game-text'>Add Game</h1>
+            <div className='dashboard-format-add-game'>
+              <button className='dashboard-add-game-btn' onClick={(e) => {
+                  e.preventDefault()
+                  setDisplayAddGame(true)
+                }}>+</button>
             </div>
         </div>
-    </div>
+        {displayAddGame ? <AddGame /> : null}
+      </div>
+    </DisplayAddGame.Provider>
+    
   )
 }
 
