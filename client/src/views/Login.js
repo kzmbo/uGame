@@ -73,13 +73,13 @@ const Login = () => {
                         }}>Login</button>
                     </form>
                     <div className='subtext-login-signup'>
-                        <p>Don't have an account</p>
+                        <p className='font-2xl font-semibold'>Don't have an account</p>
                         <Link to='/signup'>
-                            <p className='text-blue'>Sign up here!</p>
+                            <p className='text-dark-blue font-lg font-normal'>Sign up here!</p>
                         </Link>
                     </div>
                 </div>
-                <p className='absolute bottom-5 right-5'>Wanna contribute? <a className='text-blue' href='https://github.com/kzmbo/uGame/tree/main' target='_blank'>Check out my repo on GitHub!</a></p>
+                <p className='absolute bottom-5 right-5'>Wanna contribute? <a className='text-dark-blue ' href='https://github.com/kzmbo/uGame/tree/main' target='_blank'>Check out my repo on GitHub!</a></p>
             </div>
         </div> 
     )
