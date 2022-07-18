@@ -4,10 +4,30 @@
 
 @layer components {
     .exit-btn {
-        @apply absolute top-10 right-10 text-xl py-3 px-14 md:text-3xl border border-black rounded-lg hover:bg-blue
+        @apply text-xl py-3 px-14 md:text-lg md:px-10 md:py-2 border border-black rounded-lg hover:bg-blue
     }
     
     .select-btn {
         @apply px-5 py-10 hover:bg-blue/50
+    }
+
+    /* The labels for the searchbar */
+    .text-field-label-game {
+        @apply block text-base font-normal mx-10 md:text-2xl
+    }
+
+    /* Searchbar for the dashboard */
+    .text-field-add-game {
+        @apply block bg-transparent border border-black rounded-lg px-3 text-sm my-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
+    }
+
+    /* Drop down menu for selecting status */
+    .status-dropmenu {
+        @apply my-2 mx-10 w-1/4 px-2 py-1
+    }
+
+    /* The button for submitting the values in the fields */
+    .add-game-btn {
+        @apply mx-auto inset-x-0 bottom-0 my-20 md:my-32 text-lg bg-blue/100 py-2 px-10 rounded-lg text-black font-bold md:text-lg 
     }
 }
