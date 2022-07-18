@@ -137,7 +137,7 @@
 
   /* Game screenshot img */
   .dashboard-game-img {
-    @apply w-full h-44 object-top object-cover rounded-xl md:h-52
+    @apply w-full h-56 object-top object-cover rounded-xl md:h-60 lg:h-72
   }
 
   /* Section that contains info about that game */
