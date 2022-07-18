@@ -70,7 +70,7 @@
   
   /* Background for the dashboard page */
   .bg-dashboard {
-    @apply bg-dark-white text-black w-screen md:w-full h-full overflow-auto md:h-screen
+    @apply bg-dark-white text-black w-full h-screen md:w-full overflow-auto md:h-screen
   }
 
   /* Header for the dashboard */

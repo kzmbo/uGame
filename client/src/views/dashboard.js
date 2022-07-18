@@ -20,8 +20,8 @@ const Dashboard = () => {
   const uid = authUser?.userID
   const sid = authUser?.sid
   const username = authUser.user?.username
-  const gamesPlayed = authUser.user?.game_list?.games_played ?? []
-  const gamesWishlist = authUser.user?.game_list?.games_wishlist ?? []
+  let gamesPlayed = authUser.user?.game_list?.games_played ?? []
+  let gamesWishlist = authUser.user?.game_list?.games_wishlist ?? []
 
   const logoutUser = async () => {
     await Axios.post('http://localhost:4000/logout')
