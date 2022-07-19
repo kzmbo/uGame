@@ -19,9 +19,6 @@ const GameSchema = new mongoose.Schema({
     game_hours_played: {
         type: String
     },
-    game_platforms_images: [
-        
-    ]
 })
 
 const UserSchema = new mongoose.Schema({
