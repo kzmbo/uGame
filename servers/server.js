@@ -6,7 +6,7 @@ const mongoose = require("mongoose")
 const UserModel = require("./model/user")
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session);
-const cors = require("cors");
+const cors = require('cors');
 const bcrypt = require("bcrypt")
 const saltRound = 10;
 
@@ -16,7 +16,7 @@ mongoose.connect(URL_DB, {useNewUrlParser: true})
 
 app.use(express.json());
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: "http://localhost:3000",
     methods: ["POST", "PUT", "DELETE", "GET"],
     credentials: true
 }));
@@ -197,14 +197,14 @@ app.put('/editplayedgame', verifyUser, async (req, res) => {
 
 //Add games to played list
 app.post('/addplayedgame', verifyUser, async (req, res) => {
-    const userId = req.body.id
+    const userID = req.body.userID
     const gameObj = req.body.game
                     
-    await UserModel.findById(userId, 'game_list games_played')
+    await UserModel.findById(userID, 'game_list games_played')
     .then(async (db) => {
         const arr = db.game_list.games_played.push(gameObj)
         await db.save()
-        return res.send(db.game_list.games_played)
+        return res.json({msg: "Game added successful"})
     })
     .catch((error) => {
         console.log(error)
