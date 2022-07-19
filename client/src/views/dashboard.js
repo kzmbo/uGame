@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   const { userId } = useParams()
   const { authUser, setAuth } = useContext(AuthContext)
-  const [ isDisplayingPlayedGames, setGameDisplayStatus ] = useState(false)
+  const [ isDisplayingPlayedGames, setGameDisplayStatus ] = useState(true)
   const [ displayAddGame, setDisplayAddGame ] = useState(false)
   const [ displayEditGame, setDisplayEditGame ] = useState(false)
 
