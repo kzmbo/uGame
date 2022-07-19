@@ -17,11 +17,7 @@ const GamePlayed = ({ GamesPlayed }) => {
                 <div className='dashboard-game-textbox-subinfo-section'>
                 <h1 className='dashboard-game-subtext-heading'>Released Date: <p className='dashboard-game-subtext-info'>{game.game_release_date}</p></h1>
                     <h1 className='dashboard-game-subtext-heading'>Status: <p className='dashboard-game-subtext-info'>{game.game_status}</p></h1>
-                    <h1 className='dashboard-game-subtext-heading'>Hours Played: <p className='dashboard-game-subtext-info'>123 hours</p></h1>
-                    <div>
-                    <h1 className='dashboard-game-subtext-heading'>Played On: </h1>
-                    {}
-                    </div>
+                    <h1 className='dashboard-game-subtext-heading'>Hours Played: <p className='dashboard-game-subtext-info'>{game.game_hours_played}</p></h1>
                 </div>
                 <button className='dashboard-game-edit-btn'>Edit</button>
                 </div>
