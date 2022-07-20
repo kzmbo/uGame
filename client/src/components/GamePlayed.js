@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 
 const GamePlayed = ({ GamesPlayed }) => {
+    let gid = []
+    const [test, setTest] = useState(false)
+
     return GamesPlayed.map((game, index) => {
+        gid.push(game._id)
+        
         return(
             <div key={index} className='p-4 py-10 md:p-10'>
             <div className='dashboard-game-section'>
@@ -19,8 +24,13 @@ const GamePlayed = ({ GamesPlayed }) => {
                     <h1 className='dashboard-game-subtext-heading'>Status: <p className='dashboard-game-subtext-info'>{game.game_status}</p></h1>
                     <h1 className='dashboard-game-subtext-heading'>Hours Played: <p className='dashboard-game-subtext-info'>{game.game_hours_played}</p></h1>
                 </div>
-                <button className='dashboard-game-edit-btn'>Edit</button>
+                
+                <button className='dashboard-game-edit-btn' onClick={() => {
+                        console.log(gid[index])
+                        setTest(prev => !prev)
+                    }}>Edit</button>
                 </div>
+                {<>{test ? <>dasf</> : <>fgsd</> }</>}
             </div>
             </div>
         )
