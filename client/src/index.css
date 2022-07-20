@@ -144,17 +144,17 @@
 
   /* Section containing the game title and rating */
   .dashboard-game-textbox-title-rating-section {
-    @apply flex justify-between px-3 py-5 md:px-4 lg:px-10
+    @apply flex justify-between px-3 py-5 md:px-4 lg:px-10 h-20
   }
 
   /* Game Title */
   .dashboard-game-title {
-    @apply text-2xl font-bold md:text-2xl
+    @apply text-lg font-bold md:text-xl w-full
   }
 
   /* Game Rating */
   .dashboard-game-rating {
-    @apply text-2xl font-semibold md:text-2xl
+    @apply text-base font-semibold md:text-lg w-3/4 text-right 
   }
 
   /* Section that list the info about the user's experience with the game */
@@ -164,12 +164,12 @@
 
   /* Heading for Status, Hours Played, and Played on */
   .dashboard-game-subtext-heading {
-    @apply flex justify-start font-bold md:text-xl
+    @apply flex justify-start font-bold text-lg
   }
 
   /* Info for the Status, Hours Played, and Played on */
   .dashboard-game-subtext-info {
-    @apply font-normal px-2
+    @apply font-normal px-2 text-lg
   }
 
   /* Button for editing the info of that entry */
