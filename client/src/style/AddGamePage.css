@@ -23,16 +23,23 @@
 
     /* Searchbar for the dashboard */
     .text-field-add-game {
-        @apply block bg-transparent border border-black rounded-lg px-3 text-sm my-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
+        @apply block bg-transparent border border-black rounded-lg px-3 py-1 text-sm my-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
     }
 
     /* Drop down menu for selecting status */
     .status-dropmenu {
-        @apply block my-2 mx-10 w-1/4 px-2 py-1
+        @apply block my-2 mx-10 w-1/2 md:w-1/4 px-2 py-1
     }
 
     /* The button for submitting the values in the fields */
     .add-game-btn {
         @apply w-1/2 mx-auto absolute inset-x-0 bottom-0 my-20 md:my-32 text-lg bg-blue/100 py-2 px-10 rounded-lg text-black font-bold md:text-lg md:w-1/3
     }
+
+    /* The button for submitting the values in the fields */
+    .delete-game-btn {
+        @apply mx-10 my-3 w-1/2 text-base border border-red py-1 px-2 rounded-lg text-black md:text-lg md:w-1/4 hover:text-white hover:bg-red
+    }
+
+
 }

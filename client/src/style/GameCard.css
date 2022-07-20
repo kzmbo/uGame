@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+/* Section for the Game Element */
+.dashboard-game-section {
+    @apply bg-dashboard-card-w text-black rounded-xl shadow-xl hover:shadow-2xl 
+  }
+
+  /* Game screenshot img */
+  .dashboard-game-img {
+    @apply w-full h-56 object-top object-cover rounded-xl md:h-60 lg:h-72
+  }
+
+  /* Section that contains info about that game */
+  .dashboard-game-textbox {
+    @apply w-full h-52 bg-dashboard-card-w rounded-b-xl md:h-60
+  }
+
+  /* Section containing the game title and rating */
+  .dashboard-game-textbox-title-rating-section {
+    @apply flex justify-between px-3 py-5 md:px-4 lg:px-10 h-20
+  }
+
+  /* Game Title */
+  .dashboard-game-title {
+    @apply text-lg font-bold md:text-xl w-full
+  }
+
+  /* Game Rating */
+  .dashboard-game-rating {
+    @apply text-base font-semibold md:text-lg w-3/4 text-right 
+  }
+
+  /* Section that list the info about the user's experience with the game */
+  .dashboard-game-textbox-subinfo-section {
+    @apply px-3 pt-3 pb-10 text-lg md:text-2xl md:px-4 lg:px-10 lg:pt-5
+  }
+
+  /* Heading for Status, Hours Played, and Played on */
+  .dashboard-game-subtext-heading {
+    @apply flex justify-start font-bold text-lg
+  }
+
+  /* Info for the Status, Hours Played, and Played on */
+  .dashboard-game-subtext-info {
+    @apply font-normal px-2 text-lg
+  }
+
+  /* Button for editing the info of that entry */
+  .dashboard-game-edit-btn {
+    @apply text-black text-lg font-semibold absolute bottom-0 right-0 px-4 py-1 md:text-2xl md:py-4 md:px-6
+  }
+
+  /* Button for deleting game from wishlist */
+  .dashboard-game-delete-btn {
+    @apply text-red text-lg font-semibold absolute bottom-0 right-0 px-4 py-1 md:text-2xl md:py-4 md:px-6
+  }
+
+  /* cards will display in grids of 2 on tablets */
+  .game-card-md {
+    @apply grid grid-cols-2
+  }
+
+  /* cards will display in grids of 3 on desktop/laptop */
+  .game-card-lg {
+    @apply grid grid-cols-3 h-auto
+  }
+
+  /* Banner for adding games btn */
+  .dashboard-add-game-banner {
+    @apply w-full flex justify-end px-5 py-2 fixed bottom-0 bg-black/50 text-white 
+  }
+
+  /* Text that prompts user to add game */
+  .dashboard-add-game-text {
+    @apply px-5 self-center font-semibold text-xl
+  }
+
+  /* Applies spacing between text and btn */
+  .dashboard-format-add-game {
+    @apply flex justify-center items-center
+  }
+
+  /* Add game button */
+  .dashboard-add-game-btn {
+    @apply w-12 h-12 rounded-full border text-xl
+  }
+}
