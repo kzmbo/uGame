@@ -89,13 +89,13 @@ const Signup = () => {
                         <p className='error-textfield mb-5'>{signUpMsg}</p>
                     </form>
                     <div className='subtext-login-signup'>
-                        <p>Have an account already?</p>
+                        <p className='font-2xl font-semibold'>Have an account already?</p>
                         <Link to='/login'>
-                            <p className='text-blue'>Log in here!</p>
+                            <p className='text-dark-blue font-lg font-normal'>Log in here!</p>
                         </Link>
                     </div>
                 </div>
-                <p className='absolute bottom-5 right-5'>Wanna contribute? <a className='text-blue' href='https://github.com/kzmbo/uGame/tree/main' rel='noopener' >Check out my repo on GitHub!</a></p>
+                <p className='absolute bottom-5 right-5'>Wanna contribute? <a className='text-dark-blue ' href='https://github.com/kzmbo/uGame/tree/main' rel='noopener' >Check out my repo on GitHub!</a></p>
             </div>
             {isSignedUp ? (<Navigate to='/login' replace={true} />): null}
         </div>

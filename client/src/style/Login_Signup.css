@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    /* Split banner and login/signup section into two parts */
+  .bg-login-signup {
+    @apply lg:flex
+  }
+
+  /* The background of the banner */
+  .login-signup-banner{
+    @apply bg-white lg:w-3/5 lg:block hidden relative 
+  }
+
+  /* A section within the banner that contains the following text shown in the bottom of the screen */
+  .banner-section {
+    @apply absolute text-center text-lg font-semibold lg:w-full bottom-14
+  }
+
+  /* The section for the login and signup page */
+  .login-sign-section {
+    @apply bg-dark-white text-black h-screen w-screen lg:w-1/2
+  }
+
+  /* Title heading for the website "uGame" */
+  .logo-header {
+    @apply text-3xl p-10 font-semibold md:text-4xl md:p-14 visible lg:invisible
+  }
+
+  /* The header for the banner; only displays on laptops and desktops */
+  .logo-header-banner{
+    @apply font-semibold text-4xl p-8
+  } 
+  
+  /* The heading for input field. For login page = "Login", For signup page = "Sign up" */
+  .header-login-signup {
+    @apply text-lg font-semibold text-center mb-3 md:text-3xl md:mb-5
+  }
+
+  /* The labels for the text fields*/
+  .text-field-labels {
+    @apply text-base font-normal mx-10 md:text-xl
+  }
+
+  /* The text field for entering the input (ex. email, username, and password) */
+  .text-field {
+    @apply bg-transparent border border-black rounded-lg px-2 py-1 text-sm mt-1 mb-2 mx-10 md:py-1 md:mt-2 md:mb-3 md:text-lg
+  }
+
+  /* The button for submitting the values in the fields */
+  .login-signup-btn {
+    @apply my-4 md:my-6 text-xl bg-dark-blue mx-20 py-2 rounded-lg text-black font-bold md:mx-32 md:text-lg 
+  }
+
+  /* Error text when user incorrectly fills in the fields */
+  .error-textfield {
+    @apply text-center text-red font-bold
+  }
+
+  /* The text prompting users for cases where they may have an account or not. */
+  .subtext-login-signup {
+    @apply text-sm text-center font-light md:text-base
+  }
+}

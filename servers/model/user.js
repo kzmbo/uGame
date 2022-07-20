@@ -16,9 +16,16 @@ const GameSchema = new mongoose.Schema({
     game_release_date: {
         type: String
     },
-    game_platforms_images: [
-        
-    ]
+    game_hours_played: {
+        type: String
+    },
+    game_platforms: [
+
+    ],
+    game_metacritic: {
+        type: Number
+    },
+    
 })
 
 const UserSchema = new mongoose.Schema({

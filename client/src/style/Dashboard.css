@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    /**/
+  /* Dashboard */
+  /**/
+  
+  /* Background for the dashboard page */
+  .bg-dashboard {
+    @apply bg-dark-white text-black w-full h-screen md:w-full overflow-auto md:h-screen
+  }
+
+  /* Header for the dashboard */
+  .dashboard-header {
+    @apply flex content-center justify-between px-4 md:px-10 w-screen
+  }
+
+  .dashboard-header-logo {
+    @apply self-center text-2xl font-semibold py-6 md:text-3xl
+  }
+
+  /* Login as username and logout btn section */
+  .dashboard-header-logout-section {
+    @apply flex justify-end content-center text-sm my-4 w-56 md:w-72
+  }
+
+  /* "Hello, username" */
+  .dashboard-header-signin-status {
+    @apply text-sm self-center px-3 py-1 md:text-xl md:py-2 md:px-6
+  }
+
+  /* Logout btn */
+  .dashboard-logout-btn {
+    @apply border border-black font-semibold text-sm px-2 rounded-md md:text-xl
+  }
+
+  /* Section where user picks whether to display played games or games on their wishlist */
+  .dashboard-select-section {
+    @apply flex justify-evenly p-5 
+  }
+  
+  /* Button for the inactive page from the two options (played/wishlist) */
+  .dashboard-select-btn {
+    @apply px-16 text-xl md:text-3xl
+  }
+
+  /* Button for active page from the two options (played/wishlist) */
+  .btn_ACTIVE {
+    @apply px-16 underline underline-offset-8 text-xl md:text-3xl
+  }
+
+  /* Line that seperates the two btns */
+  .dashboard-line {
+    @apply h-20 border border-black md:h-28
+  }
+
+  /* The labels for the searchbar */
+  .dashboard-text-field-label {
+    @apply text-base font-normal mx-10 md:text-2xl block
+  }
+
+  /* Searchbar for the dashboard */
+  .dashboard-text-field {
+    @apply bg-transparent border border-black rounded-lg w-3/4 px-3 text-sm my-2 mx-10 md:py-1 md:mt-3 md:mb-3 md:text-lg
+  }
+}
