@@ -14,12 +14,67 @@ const AddGame = () => {
 
     const { displayAddGame, setDisplayAddGame} = useContext(DisplayAddGame)
 
-    const [endpointMsg, setEndpointStatus] = useState('')
+    const [ endpointMsg, setEndpointStatus ] = useState('')
+    const [ changeAddGameSection, setAddGameSection ] = useState(true)
 
-    const addGameURI = 'http://localhost:4000/addplayedgame'
+    const addGamePlayedURI = 'http://localhost:4000/addplayedgame'
+    const addGameWishlistURI = 'http://localhost:4000/addgamewishlist'
 
-    const addGameToDB = async (gameTitle, gameStatus, gameRating, gameHoursPlayed) => {
-        console.log('running')
+    const addGameToWishlistDB = async (gameTitle) => {
+        if (gameTitle.length === 0) return setEndpointStatus('Unable to add game. Please fill in all The fields')
+        await Axios.get(`https://api.rawg.io/api/games`, {
+            withCredentials: false,
+            params: {
+                key: 'c65af6735319413f81c8009fee466c76',
+                search: gameTitle
+            }
+        })
+        .then(async (response) => {
+            if (response.status !== 200) return setEndpointStatus('Unable to add game. Please fill in all The fields')
+            if (response.status === 404) return setEndpointStatus('Unable to find game. Please Try Again.') 
+            let gameSlug = response.data.results[0].slug
+            let game = await Axios.get(`https://api.rawg.io/api/games/${gameSlug}`, {
+                withCredentials: false,
+                params: {
+                    key: 'c65af6735319413f81c8009fee466c76'
+                }
+            })
+            
+            let parentPlatform = []
+            game.data.parent_platforms.map((nameOfPlatform) => {
+                parentPlatform.push(nameOfPlatform.platform.name)
+            })
+         
+
+            console.log(parentPlatform)
+
+            await Axios.post(addGameWishlistURI, {
+                userID: authUser.userID,
+                game: {
+                    game_title: game.data.name,
+                    game_screenshot_uri: game.data.background_image,
+                    game_release_date: game.data.released,
+                    game_metacritic: game.data.metacritic,
+                    game_platforms: parentPlatform
+                }
+            })
+            .then((response) => {
+                console.log(response)
+                setEndpointStatus('Successfully Added Game to wishlist.') 
+                window.location.reload()
+            })
+            .catch((error) => {
+                console.log(error)
+                return setEndpointStatus('Unable to find game. Please Try Again.') 
+            })
+        })
+        .catch((error) => {
+            console.log("here")
+            console.log(error)
+        })
+    }
+
+    const addGameToPlayedDB = async (gameTitle, gameStatus, gameRating, gameHoursPlayed) => {
         if (gameTitle.length === 0 || gameStatus === null || gameRating === null || gameHoursPlayed === null) return setEndpointStatus('Unable to add game. Please fill in all The fields')
         await Axios.get(`https://api.rawg.io/api/games?key=c65af6735319413f81c8009fee466c76`, {
             withCredentials: false,
@@ -36,7 +91,7 @@ const AddGame = () => {
             })
             console.log(game)
 
-            await Axios.post(addGameURI, {
+            await Axios.post(addGamePlayedURI, {
                 userID: authUser.userID,
                 game: {
                     game_title: game.data.name,
@@ -50,7 +105,7 @@ const AddGame = () => {
             .then((response) => {
                 console.log(response)
                 setEndpointStatus('Successfully Added Game to library.') 
-                // window.location.reload()
+                window.location.reload()
             })
             .catch((error) => {
                 console.log(error)
@@ -89,7 +144,7 @@ const AddGame = () => {
                     </select>
                     <button className='add-game-btn' onClick={(e) => {
                             e.preventDefault()
-                            addGameToDB(gameTitle, gameStatus, gameRating, gameHoursPlayed)
+                            addGameToPlayedDB(gameTitle, gameStatus, gameRating, gameHoursPlayed)
                         }}>Add Game!</button>
                 </form>
                 
@@ -98,10 +153,21 @@ const AddGame = () => {
         )
     }
 
-    const AddToWishlish = () => {
+    const AddToWishlist = () => {
+        const [gameTitle, setGameTitle] = useState('')
         return(
-            <div>
+            <div className='grid grid-cols-1 place-content-center'>
+                <form>
+                    <label className='text-field-label-game'>Game Title</label>
+                    <input type="text" className='text-field-add-game w-3/4' onChange={e => setGameTitle(e.target.value)} />
 
+                    <button className='add-game-btn' onClick={(e) => {
+                            e.preventDefault()
+                            addGameToWishlistDB(gameTitle)
+                        }}>Add Game!</button>
+                </form>
+                
+                <h1 className='mx-auto text-xl'>{endpointMsg}</h1>
             </div>
         )
     }
@@ -120,13 +186,19 @@ const AddGame = () => {
             </div>
                 
             <div className='flex items-center justify-center'>
-                <button className='select-btn'>Add to Played</button>
+                <button className={changeAddGameSection ? 'select-btn_ACTIVE' : 'select-btn'} onClick={(e) => {
+                        e.preventDefault()
+                        setAddGameSection(true)
+                    }}>Add to Played</button>
                 <p className='border border-black h-24'></p>
-                <button className='select-btn'>Add to Wishlist</button>
+                <button className={!changeAddGameSection ? 'select-btn_ACTIVE' : 'select-btn'} onClick={(e) => {
+                        e.preventDefault()
+                        setAddGameSection(false)
+                    }}>Add to Wishlist</button>
             </div>
             <p className='my-4'></p>
             <div>
-                <AddToPlayed />
+                {changeAddGameSection ? <AddToPlayed /> : <AddToWishlist />}
             </div>
           
         </div>
