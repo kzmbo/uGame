@@ -28,13 +28,12 @@ const GamePlayed = ({ GamesPlayed }) => {
                     </div>
                     
                     <button className='dashboard-game-edit-btn' onClick={() => {
-                            console.log(gid[index])
                             setDisplayEditGame({
                                 display: true,
                                 gameID: gid[index],
                                 gameTitle: game.game_title
                             })
-                        }}>Edit</button>
+                        }}>⚙️</button>
                     </div>
                 </div>
             </div>
