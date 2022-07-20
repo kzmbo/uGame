@@ -74,7 +74,7 @@ const EditGame = ( {gameID, gameTitle} ) => {
                         <option value="In Process">In Process</option>
                         <option value="Dropped">Dropped</option>
                     </select>
-                    <button className='' onClick={(e) => {
+                    <button className='delete-game-btn' onClick={(e) => {
                         e.preventDefault()
                         deleteGameFromDB(gameID, authUser.userID)
                     }}>Delete Game</button>
@@ -100,8 +100,9 @@ const EditGame = ( {gameID, gameTitle} ) => {
                 </button>
             </div>
                 
-            <div className='flex items-center justify-center'>
-                <h1>Change Game: {gameTitle} id:{gameID}</h1>
+            <div className=''>
+                <h1 className='edit-header'>Edit Game:</h1>
+                <p className='edit-header-game-title'>{gameTitle}</p>
             </div>
             <p className='my-4'></p>
             <div>
