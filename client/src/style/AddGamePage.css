@@ -8,7 +8,12 @@
     }
     
     .select-btn {
-        @apply px-5 py-10 hover:bg-blue/50
+        @apply px-5 py-10 hover:bg-blue/50 text-lg
+    }
+
+    /* Button for active page from the two options (played/wishlist) */
+    .select-btn_ACTIVE {
+        @apply px-5 underline underline-offset-8 text-lg
     }
 
     /* The labels for the searchbar */
