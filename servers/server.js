@@ -225,7 +225,7 @@ app.delete('/deleteplayedgame', verifyUser, async (req, res) => {
         const game = listOfPlayedGames.find(({id}) => id === gameID)
         const index = listOfPlayedGames.indexOf(game)
         
-        listOfPlayedGames.splice(index)
+        listOfPlayedGames.splice(index, 1)
         result.save()
         
         res.json({msg: "Successfully Deleted Game!", statusCode: 200})
@@ -237,19 +237,19 @@ app.delete('/deleteplayedgame', verifyUser, async (req, res) => {
 
 //Deletes game from wishlist
 app.delete('/deletewishlistgame', verifyUser, async (req, res) => {
-    const userId = req.body.userID
-    const gameId = req.body.gameID
+    const userID = req.body.userID
+    const gameID = req.body.gameID
 
-    await UserModel.findById(userId, 'game_list')
+    await UserModel.findById(userID, 'game_list')
     .then((result) => {
-        const listOfPlayedGames = result.game_list.games_wishlist
-        const game = listOfPlayedGames.find(({id}) => id === gameId)
-        const index = listOfPlayedGames.indexOf(game)
+        const listOfWishlistGames = result.game_list.games_wishlist
+        const game = listOfWishlistGames.find(({id}) => id === gameID)
+        const index = listOfWishlistGames.indexOf(game)
         
-        listOfPlayedGames.splice(index)
+        listOfWishlistGames.splice(index, 1)
         result.save()
         
-        res.json({listOfGames: listOfPlayedGames, statusCode: 200})
+        res.json({msg: "Successfully Deleted Game!", statusCode: 200})
     })
     .catch((error) => {
         res.send(error)
