@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   const { userId } = useParams()
   const { authUser, setAuth } = useContext(AuthContext)
-  const [ isDisplayingPlayedGames, setGameDisplayStatus ] = useState(true)
+  const [ isDisplayingPlayedGames, setGameDisplayStatus ] = useState(false)
   const [ displayAddGame, setDisplayAddGame ] = useState(false)
   const [ displayEditGame, setDisplayEditGame ] = useState(false)
 
@@ -51,12 +51,12 @@ const Dashboard = () => {
           <div className='dashboard-select-section'>
             <button className={isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"} onClick={(e) => {
               e.preventDefault()
-              setGameDisplayStatus(prev => !prev)
+              setGameDisplayStatus(true)
             }}>Library</button>
             <div className='dashboard-line'></div>
             <button className={!isDisplayingPlayedGames ? "btn_ACTIVE" : "dashboard-select-btn"} onClick={(e) => {
               e.preventDefault()
-              setGameDisplayStatus(prev => !prev)
+              setGameDisplayStatus(false)
             }}>Wishlist</button>
           </div>
 
