@@ -159,12 +159,12 @@ const verifyUser = (req, res, next) => {
 //API calls for app
 //Add games to wishlist 
 app.post('/addgamewishlist', verifyUser, async (req, res) => {
-    const userId = req.body.id
+    const userID = req.body.userID
     const gameObj = req.body.game
                 
-    await UserModel.findById(userId, 'game_list games_wishlist')
+    await UserModel.findById(userID, 'game_list games_wishlist')
     .then(async (db) => {
-        const arr = db.game_list.games_wishlist.push(gameObj) 
+        db.game_list.games_wishlist.push(gameObj) 
         await db.save()
         return res.send(db.game_list.games_wishlist)
     })
