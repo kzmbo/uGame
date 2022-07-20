@@ -176,19 +176,21 @@ app.post('/addgamewishlist', verifyUser, async (req, res) => {
 
 // Edits properties (game_status & game_rating) for a game stored in the DB
 app.put('/editplayedgame', verifyUser, async (req, res) => {
-    const userId = req.body.userId
-    const gameId = req.body.gameId
-    const status = req.body.status
-    const rating = req.body.rating
+    const userID = req.body.userID
+    const gameID = req.body.gameID
+    const status = req.body.gameStatus
+    const rating = req.body.gameRating
+    const hours = req.body.gameHoursPlayed
 
-    await UserModel.findById(userId, 'game_list')
+    await UserModel.findById(userID, 'game_list')
     .then((result) => {
         const listOfPlayedGames = result.game_list.games_played
-        const gameToEdit = listOfPlayedGames.find(({id}) => id === gameId)
+        const gameToEdit = listOfPlayedGames.find(({id}) => id === gameID)
         gameToEdit.game_status = status
         gameToEdit.game_rating = rating
+        gameToEdit.game_hours_played = hours
         result.save()
-        res.json({game: gameToEdit, statusCode: 200})
+        res.json({msg: "Successfully edited game.", game: gameToEdit, statusCode: 200})
     })
     .catch((error) => {
         res.send(error)
@@ -214,19 +216,19 @@ app.post('/addplayedgame', verifyUser, async (req, res) => {
 
 //Deletes game from played list
 app.delete('/deleteplayedgame', verifyUser, async (req, res) => {
-    const userId = req.body.userId
-    const gameId = req.body.gameId
+    const userID = req.body.userID
+    const gameID = req.body.gameID
 
-    await UserModel.findById(userId, 'game_list')
+    await UserModel.findById(userID, 'game_list')
     .then((result) => {
         const listOfPlayedGames = result.game_list.games_played
-        const game = listOfPlayedGames.find(({id}) => id === gameId)
+        const game = listOfPlayedGames.find(({id}) => id === gameID)
         const index = listOfPlayedGames.indexOf(game)
         
         listOfPlayedGames.splice(index)
         result.save()
         
-        res.json({listOfGames: listOfPlayedGames, statusCode: 200})
+        res.json({msg: "Successfully Deleted Game!", statusCode: 200})
     })
     .catch((error) => {
         res.send(error)
@@ -235,8 +237,8 @@ app.delete('/deleteplayedgame', verifyUser, async (req, res) => {
 
 //Deletes game from wishlist
 app.delete('/deletewishlistgame', verifyUser, async (req, res) => {
-    const userId = req.body.userId
-    const gameId = req.body.gameId
+    const userId = req.body.userID
+    const gameId = req.body.gameID
 
     await UserModel.findById(userId, 'game_list')
     .then((result) => {
