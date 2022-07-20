@@ -1,4 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../context/AuthProvider'
+import Axios from 'axios'
+
+
+const deleteWishlistGameURI = 'http://localhost:4000/deletewishlistgame'
+
+const deleteGameFromDB = async (gameID, userID) => {
+    await Axios.delete(deleteWishlistGameURI, {data: {
+        userID: userID,
+        gameID: gameID
+    }})
+    .then((response) => {
+        if (response.status !== 200) return 
+        window.location.reload()
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+}
+
 
 const RenderPlatforms = ({platforms}) => {
   return platforms.map((plat, i) => {
@@ -9,7 +29,11 @@ const RenderPlatforms = ({platforms}) => {
 }
 
 const GameWishlist = ({ GamesWishlist }) => {
+    let gid = []
+    const { authUser, setAuth } = useContext(AuthContext)
+    
     return GamesWishlist.map((game, index) => {
+      gid.push(game._id)
         return(
           <div key={index} className='p-4 py-10 md:p-10'>
             <div className='dashboard-game-section'>
@@ -30,10 +54,12 @@ const GameWishlist = ({ GamesWishlist }) => {
                             {<RenderPlatforms platforms={game.game_platforms} />}
                           </div>
                         </h1>
-                        
-                    </div>
+                    </div>  
                 </div>
-
+                <button className='dashboard-game-delete-btn' onClick={(e) => {
+                  e.preventDefault()
+                  deleteGameFromDB(gid[index], authUser.userID)
+                }}>🗑️</button>
               </div>
             </div>
           </div>
