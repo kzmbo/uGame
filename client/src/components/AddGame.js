@@ -21,29 +21,36 @@ const AddGame = () => {
     const addGameToDB = async (gameTitle, gameStatus, gameRating, gameHoursPlayed) => {
         console.log('running')
         if (gameTitle.length === 0 || gameStatus === null || gameRating === null || gameHoursPlayed === null) return setEndpointStatus('Unable to add game. Please fill in all The fields')
-        await Axios.get(`https://api.rawg.io/api/games/${gameTitle}?key=c65af6735319413f81c8009fee466c76`, {
-            withCredentials: false
+        await Axios.get(`https://api.rawg.io/api/games?key=c65af6735319413f81c8009fee466c76`, {
+            withCredentials: false,
+            params: {
+                search: gameTitle
+            }
         })
         .then(async (response) => {
             if (response.status !== 200) return setEndpointStatus('Unable to add game. Please fill in all The fields')
             if (response.status === 404) return setEndpointStatus('Unable to find game. Please Try Again.') 
-            let game = response.data
+            let gameSlug = response.data.results[0].slug
+            let game = await Axios.get(`https://api.rawg.io/api/games/${gameSlug}?key=c65af6735319413f81c8009fee466c76`, {
+                withCredentials: false,
+            })
+            console.log(game)
 
             await Axios.post(addGameURI, {
                 userID: authUser.userID,
                 game: {
-                    game_title: game.name,
+                    game_title: game.data.name,
                     game_status: gameStatus,
                     game_rating: gameRating,
-                    game_screenshot_uri: game.background_image,
-                    game_release_date: game.released,
+                    game_screenshot_uri: game.data.background_image,
+                    game_release_date: game.data.released,
                     game_hours_played: gameHoursPlayed
                 }
             })
             .then((response) => {
                 console.log(response)
                 setEndpointStatus('Successfully Added Game to library.') 
-                window.location.reload()
+                // window.location.reload()
             })
             .catch((error) => {
                 console.log(error)
@@ -58,7 +65,7 @@ const AddGame = () => {
 
     const AddToPlayed = () => {
         const [gameTitle, setGameTitle] = useState('')
-        const [gameStatus, setGameStatus] = useState(null)
+        const [gameStatus, setGameStatus] = useState('Currently Playing')
         const [gameRating, setGameRating] = useState(0)
         const [gameHoursPlayed, setGameHoursPlayed] = useState(0)
         return(
