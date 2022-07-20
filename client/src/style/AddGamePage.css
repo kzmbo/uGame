@@ -41,5 +41,14 @@
         @apply mx-10 my-3 w-1/2 text-base border border-red py-1 px-2 rounded-lg text-black md:text-lg md:w-1/4 hover:text-white hover:bg-red
     }
 
+    /* header for the edit page */
+    .edit-header {
+        @apply block w-full px-10 text-xl md:text-3xl font-bold
+    }
+
+    /* game title for the edit page */
+    .edit-header-game-title {
+        @apply w-full px-10 text-lg md:text-2xl
+    }
 
 }
