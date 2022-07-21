@@ -17,6 +17,7 @@ const Dashboard = () => {
   const { authUser, setAuth } = useContext(AuthContext)
   const [ isDisplayingPlayedGames, setGameDisplayStatus ] = useState(true)
   const [ displayAddGame, setDisplayAddGame ] = useState(false)
+  const [ searchEntry, setSearchEntry ] = useState('') 
   const [ displayEditGame, setDisplayEditGame ] = useState({
     display: false,
     gameID: '',
@@ -71,7 +72,10 @@ const Dashboard = () => {
 
             <div className='text-center'>
               <label className='dashboard-text-field-label'>Search Titles</label>
-              <input type='text' className='dashboard-text-field '/>
+              <input type='text' className='dashboard-text-field ' onChange={(e) => {
+                e.preventDefault()
+                
+              }}/>
             </div>
           </div>
 
