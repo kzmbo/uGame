@@ -39,6 +39,8 @@ const Login = () => {
             if (isLoggedIn) {
                 setAuth(user)
                 navigate(`/dashboard/${user.userID}`, {replace: true})
+            } else {
+                setLoginMsg("Unable to find user. Please try again!")
             }
            
         })
@@ -64,13 +66,28 @@ const Login = () => {
                     <h3 className='header-login-signup'>Log In</h3>
                     <form className='grid grid-cols-1 place-content-center'>
                         <label className='text-field-labels'>Email</label>
-                        <input type="text" className='text-field' onChange={(e) => setEmail(e.target.value)} />
+                        <input type="text" className='text-field' onChange={(e) =>{
+                                const emailTemp = e.target.value
+                                if (!emailTemp.match(emailFormat)) return setEmailErrorMsg('Invalid Email')
+                                else setEmailErrorMsg('')
+                                return setEmail(emailTemp)
+                            }} />
+                        <p className='error-textfield'>{emailErrorMsg}</p>
+
                         <label className='text-field-labels'>Password</label>
-                        <input type="password" className='text-field' onChange={(e) => setPassword(e.target.value)} />
+                        <input type="password" className='text-field' onChange={(e) => {
+                                const passwordTemp = e.target.value
+                                if (passwordTemp.length === 0) return setPasswordErrorMsg('Must enter a password!')
+                                else setPasswordErrorMsg('')
+                                return setPassword(passwordTemp)
+                            }} />
+                        <p className='error-textfield'>{passwordErrorMsg}</p>
+
                         <button className='login-signup-btn' onClick={(e) => {
                             e.preventDefault()
                             loginUser()
                         }}>Login</button>
+                        <p className='error-textfield mb-5'>{loginMsg}</p>
                     </form>
                     <div className='subtext-login-signup'>
                         <p className='font-2xl font-semibold'>Don't have an account</p>
