@@ -21,7 +21,10 @@ const Dashboard = () => {
   const [ displayEditGame, setDisplayEditGame ] = useState({
     display: false,
     gameID: '',
-    gameTitle: ''
+    gameTitle: '',
+    gameRating: null,
+    gameHoursPlayed: null,
+    gameStatus: null
   })
 
   const uid = authUser?.userID
@@ -98,7 +101,13 @@ const Dashboard = () => {
               </div>
           </div>
           {displayAddGame ? <AddGame /> : null}
-          {displayEditGame.display ? <EditGame gameID={displayEditGame.gameID} gameTitle={displayEditGame.gameTitle}/> : null}
+          {displayEditGame.display ? <EditGame 
+            gameID={displayEditGame.gameID} 
+            gameTitle={displayEditGame.gameTitle}
+            _gameRating={displayEditGame.gameRating}
+            _gameHoursPlayed={displayEditGame.gameHoursPlayed}
+            _gameStatus={displayEditGame.gameStatus}
+          /> : null}
         </div>
       </DisplayAddGame.Provider>
     </DisplayEditGame.Provider>
