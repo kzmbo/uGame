@@ -10,7 +10,7 @@
 
   /* The background of the banner */
   .login-signup-banner{
-    @apply bg-white lg:w-3/5 lg:block hidden relative 
+    @apply bg-black text-white lg:w-3/5 lg:block hidden relative 
   }
 
   /* A section within the banner that contains the following text shown in the bottom of the screen */
