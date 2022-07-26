@@ -61,7 +61,6 @@ const EditGame = ( {gameID, gameTitle, _gameRating, _gameHoursPlayed, _gameStatu
         const [gameHoursPlayed, setGameHoursPlayed] = useState(_gameHoursPlayed)
         return(
             <div className='grid grid-cols-1 place-content-center'>
-                {<>{gameStatus}{_gameStatus}</>}
                 <form>
                     <label className='text-field-label-game'>Rating (X / 10)</label>
                     <input type="text" className='text-field-add-game w-1/5' onChange={e => setGameRating(e.target.value)} />
