@@ -32,6 +32,7 @@ const Dashboard = () => {
   const username = authUser.user?.username
   let gamesPlayed = authUser.user?.game_list?.games_played ?? []
   let gamesWishlist = authUser.user?.game_list?.games_wishlist ?? []
+  let gameSearch = []
 
   const logoutUser = async () => {
     await Axios.post('http://localhost:4000/logout')
@@ -42,6 +43,30 @@ const Dashboard = () => {
     .catch((error) => {
       console.log(error)
     })
+  }
+
+  const filterGamesPlayed = () => {
+    gamesPlayed.filter((elem) => {
+      if (searchEntry === '') return elem
+      if (elem.game_title.toLowerCase().includes(searchEntry.toLowerCase())) return elem
+    }).map((val, key) => {
+      gameSearch.push(val)
+    })
+    return (
+      <GamePlayed GamesPlayed={gameSearch} />
+    )
+  }
+
+  const filterGamesWishlist = () => {
+    gamesWishlist.filter((elem) => {
+      if (searchEntry === '') return elem
+      if (elem.game_title.toLowerCase().includes(searchEntry.toLowerCase())) return elem
+    }).map((val, key) => {
+      gameSearch.push(val)
+    })
+    return (
+      <GameWishlist GamesWishlist={gameSearch} />
+    )
   }
 
   return (
@@ -77,7 +102,7 @@ const Dashboard = () => {
               <label className='dashboard-text-field-label'>Search Titles</label>
               <input type='text' className='dashboard-text-field ' onChange={(e) => {
                 e.preventDefault()
-                
+                setSearchEntry(e.target.value)
               }}/>
             </div>
           </div>
@@ -85,7 +110,7 @@ const Dashboard = () => {
           <div className='my-2'></div>
           
           <div className='md:game-card-md lg:game-card-lg h-full'>
-            {isDisplayingPlayedGames ? <GamePlayed GamesPlayed={gamesPlayed} /> : <GameWishlist GamesWishlist={gamesWishlist} />}
+            {isDisplayingPlayedGames ? filterGamesPlayed() : filterGamesWishlist()}
           </div>
         
           <div className='my-16'></div>
