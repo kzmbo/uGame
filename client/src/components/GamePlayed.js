@@ -31,7 +31,10 @@ const GamePlayed = ({ GamesPlayed }) => {
                             setDisplayEditGame({
                                 display: true,
                                 gameID: gid[index],
-                                gameTitle: game.game_title
+                                gameTitle: game.game_title,
+                                gameRating: game.game_rating,
+                                gameHoursPlayed: game.game_hours_played,
+                                gameStatus: game.game_status
                             })
                         }}>⚙️</button>
                     </div>
