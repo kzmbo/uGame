@@ -6,7 +6,7 @@ import { DisplayEditGame } from '../context/DisplayEditGame'
 import { AuthContext } from '../context/AuthProvider';
 import { useNavigate } from 'react-router-dom'
 
-const EditGame = ( {gameID, gameTitle} ) => {
+const EditGame = ( {gameID, gameTitle, _gameRating, _gameHoursPlayed, _gameStatus} ) => {
     const navigate = useNavigate()
 
     const { authUser } = useContext(AuthContext)
@@ -34,6 +34,7 @@ const EditGame = ( {gameID, gameTitle} ) => {
     }
 
     const editGameToPlayedDB = async (gameStatus, gameRating, gameHoursPlayed) => {
+        console.log(gameStatus)
         if (gameStatus === null || gameRating === null || gameHoursPlayed === null) return setEndpointStatus('Unable to add game. Please fill in all The fields')
         await Axios.put(editPlayedGameURI, {
             userID: authUser.userID,
@@ -55,11 +56,12 @@ const EditGame = ( {gameID, gameTitle} ) => {
 
 
     const EditToPlayed = () => {
-        const [gameStatus, setGameStatus] = useState('Currently Playing')
-        const [gameRating, setGameRating] = useState(0)
-        const [gameHoursPlayed, setGameHoursPlayed] = useState(0)
+        const [gameStatus, setGameStatus] = useState(_gameStatus)
+        const [gameRating, setGameRating] = useState(_gameRating)
+        const [gameHoursPlayed, setGameHoursPlayed] = useState(_gameHoursPlayed)
         return(
             <div className='grid grid-cols-1 place-content-center'>
+                {<>{gameStatus}{_gameStatus}</>}
                 <form>
                     <label className='text-field-label-game'>Rating (X / 10)</label>
                     <input type="text" className='text-field-add-game w-1/5' onChange={e => setGameRating(e.target.value)} />
