@@ -22,11 +22,7 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.urlencoded({ extended: true }));
-// app.use(express.static(path.resolve(__dirname, "./client/build")))
 
-// app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "./client/build", "index.html"))
-// })
 
 //Initialized collections for storing sessions
 const store = new MongoDBStore({
@@ -263,6 +259,10 @@ app.delete('/deletewishlistgame', verifyUser, async (req, res) => {
 })
 
 const port = process.env.PORT || 4000
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('../client/build'))
+}
 
 app.listen(port, () => {
     console.log("API server running on port " + port)
