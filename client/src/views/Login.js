@@ -21,13 +21,18 @@ const Login = () => {
     // Shows a msg that displays when sign up was successful or not
     const [loginMsg, setLoginMsg] = useState('')
 
+    // States whether the user has successfully log in or not
     const [isLogin, setLoginStatus] = useState(false)
 
+    // API Endpoint for logging user in the dashboard
     const loginUserURI = 'http://localhost:4000/login'
 
+    // Regex for checking whether the string is a valid email 
     const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
-
+    // Logs in an existing user with the username and password given by the person.
+    // Successful log in will direct users to the dashboard page.
+    // Unsuccessful log in will ask the user to try again.  
     const loginUser = () => {
         Axios.post(loginUserURI, {
             email: email,
@@ -49,6 +54,7 @@ const Login = () => {
         })
     }
 
+    // Styles can be found in './../style/Login_Signup.css
     return (
         <div className='bg-login-signup'>
             <div className='login-signup-banner'>

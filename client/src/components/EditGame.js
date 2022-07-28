@@ -1,23 +1,41 @@
 import React, { useContext, useState } from 'react'
-import { DisplayAddGame } from '../context/DisplayAddGame'
 import Axios from 'axios' 
 import './../style/AddGamePage.css';
 import { DisplayEditGame } from '../context/DisplayEditGame'
 import { AuthContext } from '../context/AuthProvider';
-import { useNavigate } from 'react-router-dom'
 
 const EditGame = ( {gameID, gameTitle, _gameRating, _gameHoursPlayed, _gameStatus} ) => {
-    const navigate = useNavigate()
 
+    /*
+        authUser : {
+            userID (String),
+            sid (String),
+            user ({..} see user.js in server/models/)
+        }
+    */
     const { authUser } = useContext(AuthContext)
 
+    /*
+      displayEditGame:  {
+            display: false,
+            gameID: '',
+            gameTitle: '',
+            gameRating: null,
+            gameHoursPlayed: null,
+            gameStatus: null
+        }
+    */
     const { displayEditGame, setDisplayEditGame} = useContext(DisplayEditGame)
 
+    // Displays the status of editing a game
     const [ endpointMsg, setEndpointStatus ] = useState('')
 
+    // URI for editing played games
     const editPlayedGameURI = 'http://localhost:4000/editplayedgame'
+    // URI for deleting played games
     const deletePlayedGameURI = 'http://localhost:4000/deleteplayedgame'
 
+    // Deletes Played Games from the DB
     const deleteGameFromDB = async (gameID, userID) => {
         await Axios.delete(deletePlayedGameURI, {data: {
             userID: userID,
@@ -33,6 +51,7 @@ const EditGame = ( {gameID, gameTitle, _gameRating, _gameHoursPlayed, _gameStatu
         })
     }
 
+    // Adds changes to a played game
     const editGameToPlayedDB = async (gameStatus, gameRating, gameHoursPlayed) => {
         console.log(gameStatus)
         if (gameStatus === null || gameRating === null || gameHoursPlayed === null) return setEndpointStatus('Unable to add game. Please fill in all The fields')
@@ -54,7 +73,8 @@ const EditGame = ( {gameID, gameTitle, _gameRating, _gameHoursPlayed, _gameStatu
         })
     }
 
-
+    // Conponent for fields and buttons
+    // Styles can be found "./../AddGamePage.css"
     const EditToPlayed = () => {
         const [gameStatus, setGameStatus] = useState(_gameStatus)
         const [gameRating, setGameRating] = useState(_gameRating)
@@ -90,6 +110,7 @@ const EditGame = ( {gameID, gameTitle, _gameRating, _gameHoursPlayed, _gameStatu
         )
     }
 
+    // Styles can be found "./../AddGamePage.css"
     return (
         <div className='fixed inset-0 bg-white opacity-95 w-full h-screen'>
             <div className='flex justify-end p-4 md:p-7'>

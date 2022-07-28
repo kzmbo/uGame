@@ -1,6 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { AuthContext } from '../context/AuthProvider'
 import { useParams, useNavigate } from 'react-router-dom'
 import { DisplayAddGame } from '../context/DisplayAddGame'
@@ -13,11 +13,28 @@ import EditGame from '../components/EditGame'
 const Dashboard = () => {
   const navigate = useNavigate()
 
+  // Places userid in url when on dashboard
   const { userId } = useParams()
+
+  /*
+    authUser : {
+      userID (String),
+      sid (String),
+      user ({..} see user.js in server/models/)
+    }
+  */
   const { authUser, setAuth } = useContext(AuthContext)
+
+  // True if the dashboard is displaying Played Games or False when displaying Wishlist
   const [ isDisplayingPlayedGames, setGameDisplayStatus ] = useState(true)
+  
+  // True when the page for adding games is displayed
   const [ displayAddGame, setDisplayAddGame ] = useState(false)
-  const [ searchEntry, setSearchEntry ] = useState('') 
+
+  // String for the search filter
+  const [ searchEntry, setSearchEntry ] = useState('')
+  
+  // Info for the game that is going to be edited 
   const [ displayEditGame, setDisplayEditGame ] = useState({
     display: false,
     gameID: '',
@@ -27,13 +44,20 @@ const Dashboard = () => {
     gameStatus: null
   })
 
+  // User's ID
   const uid = authUser?.userID
+  // Session ID
   const sid = authUser?.sid
+  // Username
   const username = authUser.user?.username
+  // List of games that the user played
   let gamesPlayed = authUser.user?.game_list?.games_played ?? []
+  // List of games that the user wants to play (wishlist)
   let gamesWishlist = authUser.user?.game_list?.games_wishlist ?? []
+  // List of games that contains the letters from the search filter
   let gameSearch = []
 
+  // Logs the user out of the dashboard and deletes the session
   const logoutUser = async () => {
     await Axios.post('http://localhost:4000/logout')
     .then((response) => {
@@ -45,6 +69,7 @@ const Dashboard = () => {
     })
   }
 
+  // Filters the games from the played list
   const filterGamesPlayed = () => {
     gamesPlayed.filter((elem) => {
       if (searchEntry === '') return elem
@@ -57,6 +82,7 @@ const Dashboard = () => {
     )
   }
 
+  // Filters the games from the wishlist list
   const filterGamesWishlist = () => {
     gamesWishlist.filter((elem) => {
       if (searchEntry === '') return elem
@@ -69,6 +95,7 @@ const Dashboard = () => {
     )
   }
 
+  // Uses styles from ./../styles/Dashboard.css
   return (
     <DisplayEditGame.Provider value={{displayEditGame, setDisplayEditGame}}>
       <DisplayAddGame.Provider value={{displayAddGame, setDisplayAddGame}}>

@@ -1,11 +1,24 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { DisplayEditGame } from '../context/DisplayEditGame'
 
 const GamePlayed = ({ GamesPlayed }) => {
     let gid = []
+
+    /*
+      displayEditGame:  {
+            display: false,
+            gameID: '',
+            gameTitle: '',
+            gameRating: null,
+            gameHoursPlayed: null,
+            gameStatus: null
+        }
+    */
     const { displayEditGame, setDisplayEditGame } = useContext(DisplayEditGame)
     
 
+    // Maps out all of the games from the wishlist and displays a card
+    // Styles can be found in './../style/GameCard.css'
     return GamesPlayed.map((game, index) => {
         gid.push(game._id)
         

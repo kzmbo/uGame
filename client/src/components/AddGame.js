@@ -3,21 +3,58 @@ import { DisplayAddGame } from '../context/DisplayAddGame'
 import Axios from 'axios' 
 import './../style/AddGamePage.css';
 import { AuthContext } from '../context/AuthProvider'
-import { useNavigate } from 'react-router-dom'
+
 
 const AddGame = () => {
-    const navigate = useNavigate()
-
+    
+    /*
+        authUser : {
+            userID (String),
+            sid (String),
+            user ({..} see user.js in server/models/)
+        }
+    */
     const { authUser } = useContext(AuthContext)
 
+    /*
+      displayEditGame:  {
+            display: false,
+            gameID: '',
+            gameTitle: '',
+            gameRating: null,
+            gameHoursPlayed: null,
+            gameStatus: null
+        }
+    */
     const { displayAddGame, setDisplayAddGame} = useContext(DisplayAddGame)
 
+    // Displays the status of adding a game
     const [ endpointMsg, setEndpointStatus ] = useState('')
+    // True when adding played games page is on. False when adding wishlist games page is on
     const [ changeAddGameSection, setAddGameSection ] = useState(true)
 
+    // URI for adding played games
     const addGamePlayedURI = 'http://localhost:4000/addplayedgame'
+    // URI for adding wishlist games
     const addGameWishlistURI = 'http://localhost:4000/addgamewishlist'
 
+    // Adds games to played DB with their props
+    // Checks if game exist in the RAWG API 
+    // Adds it to DB along with its release date, title, and screenshot_URI
+    /* 
+    Games : {
+        game_title: string,
+        game_status: string,
+        game_rating: string,
+        game_hours_played: num,
+        game_platforms: [
+            string
+        ],
+        game_release_date: string,
+        game_screenshot_uri: string,
+        game_metacritic: string or num
+    }
+    */
     const addGameToWishlistDB = async (gameTitle) => {
         if (gameTitle.length === 0) return setEndpointStatus('Unable to add game. Please fill in all The fields')
         await Axios.get(`https://api.rawg.io/api/games`, {
@@ -72,6 +109,23 @@ const AddGame = () => {
         })
     }
 
+    // Adds games to played DB with their props
+    // Checks if game exist in the RAWG API 
+    // Adds it to DB along with its release date, title, and screenshot_URI
+    /* 
+    Games : {
+        game_title: string,
+        game_status: string,
+        game_rating: string,
+        game_hours_played: num,
+        game_platforms: [
+            string
+        ],
+        game_release_date: string,
+        game_screenshot_uri: string,
+        game_metacritic: string or num
+    }
+    */
     const addGameToPlayedDB = async (gameTitle, gameStatus, gameRating, gameHoursPlayed) => {
         if (gameTitle.length === 0 || gameStatus === null || gameRating === null || gameHoursPlayed === null) return setEndpointStatus('Unable to add game. Please fill in all The fields')
         await Axios.get(`https://api.rawg.io/api/games?key=c65af6735319413f81c8009fee466c76`, {
@@ -116,6 +170,8 @@ const AddGame = () => {
     }
 
 
+    // Conponent for fields and buttons
+    // Styles can be found "./../AddGamePage.css"
     const AddToPlayed = () => {
         const [gameTitle, setGameTitle] = useState('')
         const [gameStatus, setGameStatus] = useState('Currently Playing')
@@ -151,6 +207,7 @@ const AddGame = () => {
         )
     }
 
+    // Conponent that has a single field for the game the user wants to add
     const AddToWishlist = () => {
         const [gameTitle, setGameTitle] = useState('')
         return(
@@ -170,8 +227,7 @@ const AddGame = () => {
         )
     }
 
-
-
+    // Styles can be found "./../AddGamePage.css"
     return (
         <div className='fixed inset-0 bg-white opacity-95 w-full h-screen'>
             <div className='flex justify-end p-4 md:p-7'>
