@@ -9,6 +9,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
 const bcrypt = require("bcrypt")
 const saltRound = 10;
+const path = require('path')
 
 //MongoDB config
 const URL_DB = process.env.URL_DB
@@ -21,6 +22,11 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.resolve(__dirname, "./client/build")))
+
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "./client/build", "index.html"))
+})
 
 //Initialized collections for storing sessions
 const store = new MongoDBStore({
@@ -257,13 +263,6 @@ app.delete('/deletewishlistgame', verifyUser, async (req, res) => {
 })
 
 const port = process.env.PORT || 4000
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'))
-    app.get('*', (req, res) => {
-        req.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-    })
-}
 
 app.listen(port, () => {
     console.log("API server running on port " + port)
