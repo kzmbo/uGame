@@ -1,11 +1,24 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { DisplayEditGame } from '../context/DisplayEditGame'
 
 const GamePlayed = ({ GamesPlayed }) => {
     let gid = []
+
+    /*
+      displayEditGame:  {
+            display: false,
+            gameID: '',
+            gameTitle: '',
+            gameRating: null,
+            gameHoursPlayed: null,
+            gameStatus: null
+        }
+    */
     const { displayEditGame, setDisplayEditGame } = useContext(DisplayEditGame)
     
 
+    // Maps out all of the games from the wishlist and displays a card
+    // Styles can be found in './../style/GameCard.css'
     return GamesPlayed.map((game, index) => {
         gid.push(game._id)
         
@@ -31,7 +44,10 @@ const GamePlayed = ({ GamesPlayed }) => {
                             setDisplayEditGame({
                                 display: true,
                                 gameID: gid[index],
-                                gameTitle: game.game_title
+                                gameTitle: game.game_title,
+                                gameRating: game.game_rating,
+                                gameHoursPlayed: game.game_hours_played,
+                                gameStatus: game.game_status
                             })
                         }}>⚙️</button>
                     </div>

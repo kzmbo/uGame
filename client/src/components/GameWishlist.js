@@ -2,9 +2,10 @@ import React, { useContext } from 'react'
 import { AuthContext } from '../context/AuthProvider'
 import Axios from 'axios'
 
-
+// URL for deleting games from the wishlist library
 const deleteWishlistGameURI = 'http://localhost:4000/deletewishlistgame'
 
+// API endpoint for deleting games from the wishlist library
 const deleteGameFromDB = async (gameID, userID) => {
     await Axios.delete(deleteWishlistGameURI, {data: {
         userID: userID,
@@ -19,7 +20,7 @@ const deleteGameFromDB = async (gameID, userID) => {
     })
 }
 
-
+// Prints out all of the available platforms for that particular game
 const RenderPlatforms = ({platforms}) => {
   return platforms.map((plat, i) => {
     return (
@@ -28,6 +29,8 @@ const RenderPlatforms = ({platforms}) => {
   })
 }
 
+// Maps out all of the games from the wishlist and displays a card
+// Styles can be found in './../style/GameCard.css'
 const GameWishlist = ({ GamesWishlist }) => {
     let gid = []
     const { authUser, setAuth } = useContext(AuthContext)

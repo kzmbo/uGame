@@ -18,12 +18,18 @@ const Signup = () => {
     // Shows a msg that displays when sign up was successful or not
     const [signUpMsg, setSignUpMsg] = useState('')
 
+    // States whether the user has successfully sign up or not
     const [isSignedUp, setSignUpStatus] = useState(false)
 
+    // API Endpoint for creating user in the DB
     const createUserURI = 'http://localhost:4000/signup'
 
+    // Regex for checking whether the string is a valid email 
     const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
+    // Creates a new user with the username, email, and password given by the person.
+    // Successful sign ups will direct users to login page.
+    // Unsuccessful sign ups will ask the user to try again.  
     const createUser = () => {
         Axios.post(createUserURI, {
             username: username,
@@ -39,10 +45,14 @@ const Signup = () => {
         })
     }
 
+    // Styles can be found in './../style/Login_Signup.css
     return (
         <div className='bg-login-signup'>
             <div className='login-signup-banner'>
                 <h1 className='logo-header-banner'>uGame</h1>
+                <div className='banner-img-container'>
+                    <img src={require('./../img/source2.PNG')} className='banner-img'/>
+                </div>
                 <div className='banner-section'>
                     <p className='py-5'>Wanna keep track of all of the games you played?</p>
                     <p className=''>Thanks to the <a href='https://rawg.io/apidocs' rel='noopener' className='text-blue'>RAWG API</a>, we got you cover with their database of 500,000+ games across 50 platforms.</p>

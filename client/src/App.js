@@ -10,12 +10,26 @@ import { useState, useContext } from 'react';
 
 
 function App() {
+  
+  /*
+    authUser : {
+      userID (String),
+      sid (String),
+      user ({..} see user.js in server/models/)
+    }
+  */
   const [authUser, setAuth] = useState({})
+
   let { userID } = useParams()
   userID = authUser.userID
   Axios.defaults.withCredentials = true
 
 
+  /* 
+    Checks if user has logged in for the past 30 mins
+    If so, log user back to the dashboard page
+    If not, redirect them to the login page
+  */
   return (
     <BrowserRouter>
       <AuthContext.Provider value={{authUser, setAuth}}>

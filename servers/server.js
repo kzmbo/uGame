@@ -256,6 +256,15 @@ app.delete('/deletewishlistgame', verifyUser, async (req, res) => {
     })
 })
 
-app.listen(4000, () => {
-    console.log("API server running on port 4000.")
+const port = process.env.PORT || 4000
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'))
+    app.get('*', (req, res) => {
+        req.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
+}
+
+app.listen(port, () => {
+    console.log("API server running on port " + port)
 })

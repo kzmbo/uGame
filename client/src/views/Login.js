@@ -21,13 +21,18 @@ const Login = () => {
     // Shows a msg that displays when sign up was successful or not
     const [loginMsg, setLoginMsg] = useState('')
 
+    // States whether the user has successfully log in or not
     const [isLogin, setLoginStatus] = useState(false)
 
+    // API Endpoint for logging user in the dashboard
     const loginUserURI = 'http://localhost:4000/login'
 
+    // Regex for checking whether the string is a valid email 
     const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
-
+    // Logs in an existing user with the username and password given by the person.
+    // Successful log in will direct users to the dashboard page.
+    // Unsuccessful log in will ask the user to try again.  
     const loginUser = () => {
         Axios.post(loginUserURI, {
             email: email,
@@ -39,6 +44,8 @@ const Login = () => {
             if (isLoggedIn) {
                 setAuth(user)
                 navigate(`/dashboard/${user.userID}`, {replace: true})
+            } else {
+                setLoginMsg("Unable to find user. Please try again!")
             }
            
         })
@@ -47,10 +54,14 @@ const Login = () => {
         })
     }
 
+    // Styles can be found in './../style/Login_Signup.css
     return (
         <div className='bg-login-signup'>
             <div className='login-signup-banner'>
                 <h1 className='logo-header-banner'>uGame</h1>
+                <div className='banner-img-container'>
+                    <img src={require('./../img/source1.PNG')} className='banner-img'/>
+                </div>
                 <div className='banner-section'>
                     <p className='py-5'>Wanna keep track of all of the games you played?</p>
                     <p className=''>Thanks to the <a href='https://rawg.io/apidocs' target="_blank" className='text-blue'>RAWG API</a>, we got you cover with their database of 500,000+ games across 50 platforms.</p>
@@ -64,13 +75,28 @@ const Login = () => {
                     <h3 className='header-login-signup'>Log In</h3>
                     <form className='grid grid-cols-1 place-content-center'>
                         <label className='text-field-labels'>Email</label>
-                        <input type="text" className='text-field' onChange={(e) => setEmail(e.target.value)} />
+                        <input type="text" className='text-field' onChange={(e) =>{
+                                const emailTemp = e.target.value
+                                if (!emailTemp.match(emailFormat)) return setEmailErrorMsg('Invalid Email')
+                                else setEmailErrorMsg('')
+                                return setEmail(emailTemp)
+                            }} />
+                        <p className='error-textfield'>{emailErrorMsg}</p>
+
                         <label className='text-field-labels'>Password</label>
-                        <input type="password" className='text-field' onChange={(e) => setPassword(e.target.value)} />
+                        <input type="password" className='text-field' onChange={(e) => {
+                                const passwordTemp = e.target.value
+                                if (passwordTemp.length === 0) return setPasswordErrorMsg('Must enter a password!')
+                                else setPasswordErrorMsg('')
+                                return setPassword(passwordTemp)
+                            }} />
+                        <p className='error-textfield'>{passwordErrorMsg}</p>
+
                         <button className='login-signup-btn' onClick={(e) => {
                             e.preventDefault()
                             loginUser()
                         }}>Login</button>
+                        <p className='error-textfield mb-5'>{loginMsg}</p>
                     </form>
                     <div className='subtext-login-signup'>
                         <p className='font-2xl font-semibold'>Don't have an account</p>
