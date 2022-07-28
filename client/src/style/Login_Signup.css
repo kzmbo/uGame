@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer components {
-    /* Split banner and login/signup section into two parts */
+  /* Split banner and login/signup section into two parts */
   .bg-login-signup {
     @apply lg:flex
   }
@@ -16,6 +16,16 @@
   /* A section within the banner that contains the following text shown in the bottom of the screen */
   .banner-section {
     @apply absolute text-center text-lg font-semibold lg:w-full bottom-14
+  }
+
+  /* Container that has the img for the banner */
+  .banner-img-container {
+    @apply w-full h-3/4 absolute inset-0 my-24 flex justify-center items-center
+  }
+
+  /* Acutal img for the login/signup */
+  .banner-img {
+    @apply w-3/4 skew-y-12 shadow-2xl shadow-white/40
   }
 
   /* The section for the login and signup page */

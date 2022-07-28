@@ -53,6 +53,9 @@ const Login = () => {
         <div className='bg-login-signup'>
             <div className='login-signup-banner'>
                 <h1 className='logo-header-banner'>uGame</h1>
+                <div className='banner-img-container'>
+                    <img src={require('./../img/source1.PNG')} className='banner-img'/>
+                </div>
                 <div className='banner-section'>
                     <p className='py-5'>Wanna keep track of all of the games you played?</p>
                     <p className=''>Thanks to the <a href='https://rawg.io/apidocs' target="_blank" className='text-blue'>RAWG API</a>, we got you cover with their database of 500,000+ games across 50 platforms.</p>
