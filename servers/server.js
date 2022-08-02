@@ -11,16 +11,14 @@ const bcrypt = require("bcryptjs")
 const saltRound = 10;
 const path = require('path')
 
+app.use(cors());
+
 //MongoDB config
 const URL_DB = process.env.URL_DB
 mongoose.connect(URL_DB, {useNewUrlParser: true})
 
 app.use(express.json());
-app.use(cors({
-    origin: "http://localhost:3000",
-    methods: ["POST", "PUT", "DELETE", "GET"],
-    credentials: true
-}));
+
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -48,18 +46,14 @@ app.use(session({
     store: store
 }))
 
-app.get('/', (req, res) => {
-    res.send('hello world')
-})
-
 // Authenicating Users
 // Retrieves userId and sid if there's a cookie
 app.get('/login', async (req, res) => {
     let isLoggedIn = false
     let user = null
-    if (req.session.userId) {
+    if (req.session.userID) {
         isLoggedIn = true
-        await UserModel.findById(req.session.userId, 'username game_list')
+        await UserModel.findById(req.session.userID, 'username game_list')
         .then((response) => {
             user = response
         })
@@ -67,7 +61,7 @@ app.get('/login', async (req, res) => {
             console.log(error)
         })
     }
-    return res.json({userId: req.session.userId, user: user, sid: req.sessionID, isLoggedIn: isLoggedIn})
+    return res.json({userId: req.session.userID, user: user, sid: req.sessionID, isLoggedIn: isLoggedIn})
 })
 
 app.post('/getuser', async (req, res) => {
@@ -97,6 +91,7 @@ app.post('/logout', async (req, res) => {
 app.post('/login', async (req, res) => {
     const email = req.body.email
     const password = req.body.password
+    
 
     await UserModel.find({email: email})
     .then((user) => {
@@ -106,7 +101,7 @@ app.post('/login', async (req, res) => {
                 if (err) throw err
                 
                 if (isPasswordCorrect){
-                    req.session.userId = user[0].id
+                    req.session.userID = user[0].id
                     res.json({userID: user[0].id, sid: req.sessionID, isLoggedIn: true})
                 } else {
                     return res.json({isLoggedIn: false})
@@ -119,7 +114,7 @@ app.post('/login', async (req, res) => {
         
     })
     .catch((error) => {
-        return res.json({error: error})
+        return res.json({error: error, msg: 'here'})
     }) 
 })
 
@@ -158,7 +153,7 @@ app.post('/signup', async (req, response) => {
 
 //Middleware to check if user is authenticated
 const verifyUser = (req, res, next) => {
-    if (req.session.userId) return next()
+    if (req.session.userID) return next()
     return res.json({isLoggedIn: false})
 }
 
