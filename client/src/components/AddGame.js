@@ -34,9 +34,9 @@ const AddGame = () => {
     const [ changeAddGameSection, setAddGameSection ] = useState(true)
 
     // URI for adding played games
-    const addGamePlayedURI = `${process.env.REACT_APP_SERVER_URI}/addplayedgame`
+    const addGamePlayedURI = 'http://localhost:4000/addplayedgame'
     // URI for adding wishlist games
-    const addGameWishlistURI = `${process.env.REACT_APP_SERVER_URI}/addgamewishlist`
+    const addGameWishlistURI = 'http://localhost:4000/addgamewishlist'
 
     // Adds games to played DB with their props
     // Checks if game exist in the RAWG API 
@@ -60,7 +60,7 @@ const AddGame = () => {
         await Axios.get(`https://api.rawg.io/api/games`, {
             withCredentials: false,
             params: {
-                key: `${process.env.REACT_APP_RAWG_API_KEY}`,
+                key: 'c65af6735319413f81c8009fee466c76',
                 search: gameTitle
             }
         })
@@ -71,7 +71,7 @@ const AddGame = () => {
             let game = await Axios.get(`https://api.rawg.io/api/games/${gameSlug}`, {
                 withCredentials: false,
                 params: {
-                    key: `${process.env.REACT_APP_RAWG_API_KEY}`
+                    key: 'c65af6735319413f81c8009fee466c76'
                 }
             })
             
@@ -128,22 +128,18 @@ const AddGame = () => {
     */
     const addGameToPlayedDB = async (gameTitle, gameStatus, gameRating, gameHoursPlayed) => {
         if (gameTitle.length === 0 || gameStatus === null || gameRating === null || gameHoursPlayed === null) return setEndpointStatus('Unable to add game. Please fill in all The fields')
-        await Axios.get(`https://api.rawg.io/api/games`, {
+        await Axios.get(`https://api.rawg.io/api/games?key=c65af6735319413f81c8009fee466c76`, {
             withCredentials: false,
             params: {
-                search: gameTitle,
-                key: `${process.env.REACT_APP_RAWG_API_KEY}`
+                search: gameTitle
             }
         })
         .then(async (response) => {
             if (response.status !== 200) return setEndpointStatus('Unable to add game. Please fill in all The fields')
             if (response.status === 404) return setEndpointStatus('Unable to find game. Please Try Again.') 
             let gameSlug = response.data.results[0].slug
-            let game = await Axios.get(`https://api.rawg.io/api/games/${gameSlug}`, {
+            let game = await Axios.get(`https://api.rawg.io/api/games/${gameSlug}?key=c65af6735319413f81c8009fee466c76`, {
                 withCredentials: false,
-                params: {
-                    key: `${process.env.REACT_APP_RAWG_API_KEY}`, 
-                }
             })
             console.log(game)
 

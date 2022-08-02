@@ -25,7 +25,7 @@ const Login = () => {
     const [isLogin, setLoginStatus] = useState(false)
 
     // API Endpoint for logging user in the dashboard
-    const loginUserURI = `${process.env.REACT_APP_SERVER_URI}/login`
+    const loginUserURI = 'http://localhost:4000/login'
 
     // Regex for checking whether the string is a valid email 
     const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -34,7 +34,7 @@ const Login = () => {
     // Successful log in will direct users to the dashboard page.
     // Unsuccessful log in will ask the user to try again.  
     const loginUser = () => {
-        Axios.post('https://ugame-server.herokuapp.com/login', {
+        Axios.post(loginUserURI, {
             email: email,
             password: password
         })
