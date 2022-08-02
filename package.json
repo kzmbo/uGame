@@ -6,8 +6,9 @@
   "scripts": {
     "build": "cd client && npm run build",
     "install-client": "cd client && npm install",
-    "heroku-psotbuild": "npm run install-client && npm run build",
-    "start": "node server.js"
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "start": "node server.js",
+    "client": "cd client && npm start"
   },
   "author": "",
   "license": "ISC",
