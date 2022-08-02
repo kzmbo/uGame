@@ -7,7 +7,7 @@ const UserModel = require("./model/user")
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs")
 const saltRound = 10;
 const path = require('path')
 
@@ -47,6 +47,10 @@ app.use(session({
     },
     store: store
 }))
+
+app.get('/', (req, res) => {
+    res.send('hello world')
+})
 
 // Authenicating Users
 // Retrieves userId and sid if there's a cookie
@@ -258,7 +262,7 @@ app.delete('/deletewishlistgame', verifyUser, async (req, res) => {
     })
 })
 
-const port = process.env.PORT || 4000
+let port = process.env.PORT || 4000
 
 // if (process.env.NODE_ENV === 'production') {
 //     app.use(express.static('../client/build'))

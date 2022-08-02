@@ -2,15 +2,15 @@
   "name": "servers",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "connect-mongodb-session": "^3.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
@@ -18,5 +18,8 @@
     "express-session": "^1.17.3",
     "mongoose": "^6.4.4",
     "nodemon": "^2.0.19"
+  },
+  "engines": {
+    "node": "14.17.5"
   }
 }
