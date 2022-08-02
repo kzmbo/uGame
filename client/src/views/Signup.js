@@ -22,7 +22,7 @@ const Signup = () => {
     const [isSignedUp, setSignUpStatus] = useState(false)
 
     // API Endpoint for creating user in the DB
-    const createUserURI = 'http://localhost:4000/signup'
+    const createUserURI = `${process.env.REACT_APP_SERVER_URI}/signup`
 
     // Regex for checking whether the string is a valid email 
     const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/

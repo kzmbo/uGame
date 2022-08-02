@@ -20,11 +20,14 @@ const UserPersistance = () => {
     */
     const { authUser, setAuth } = useContext(AuthContext)
 
+    // API Endpoint for logging user in the dashboard
+    const isLoginUserURI = `${process.env.REACT_APP_SERVER_URI}/login`
+
     // Checks to see if user has an existing session. 
     // If so, log back in. If not, go to the login page
     useEffect(() => {
         async function fetchUserId() {
-            const response = await Axios.get('http://localhost:4000/login')
+            const response = await Axios.get(isLoginUserURI)
             console.log(response)
             const userID = response.data.userId ?? null
             const sid = response.data.sid ?? null

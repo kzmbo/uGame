@@ -59,7 +59,7 @@ const Dashboard = () => {
 
   // Logs the user out of the dashboard and deletes the session
   const logoutUser = async () => {
-    await Axios.post('http://localhost:4000/logout')
+    await Axios.post(`${process.env.REACT_APP_SERVER_URI}/logout`)
     .then((response) => {
       setAuth({})
       navigate(`/login`, {replace: true})
