@@ -10,6 +10,7 @@ const cors = require('cors');
 const bcrypt = require("bcryptjs")
 const saltRound = 10;
 const path = require('path')
+const port = process.env.PORT || 4000
 
 app.use(cors({
     credentials: false
@@ -21,7 +22,7 @@ mongoose.connect(URL_DB, {useNewUrlParser: true})
 
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 
 //Initialized collections for storing sessions
@@ -259,10 +260,11 @@ app.delete('/deletewishlistgame', verifyUser, async (req, res) => {
     })
 })
 
-let port = process.env.PORT || 4000
-
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'))
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
 }
 
 app.listen(port, () => {
