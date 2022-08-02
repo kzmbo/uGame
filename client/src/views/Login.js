@@ -37,6 +37,7 @@ const Login = () => {
         Axios.post('https://ugame-server.herokuapp.com/login', {
             email: email,
             password: password
+            
         })
         .then((response) => {
             const isLoggedIn = response.data.isLoggedIn

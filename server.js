@@ -11,7 +11,9 @@ const bcrypt = require("bcryptjs")
 const saltRound = 10;
 const path = require('path')
 
-app.use(cors());
+app.use(cors({
+    credentials: false
+}));
 
 //MongoDB config
 const URL_DB = process.env.URL_DB
