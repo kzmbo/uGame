@@ -51,7 +51,7 @@ app.use(session({
 
 // Authenicating Users
 // Retrieves userId and sid if there's a cookie
-app.get('/login', async (req, res) => {
+app.get('/api/login', async (req, res) => {
     let isLoggedIn = false
     let user = null
     if (req.session.userID) {
@@ -67,7 +67,7 @@ app.get('/login', async (req, res) => {
     return res.json({userId: req.session.userID, user: user, sid: req.sessionID, isLoggedIn: isLoggedIn})
 })
 
-app.post('/getuser', async (req, res) => {
+app.post('/api/getuser', async (req, res) => {
     const userID = req.body.userID
     if (userID) {
         await UserModel.findById(userID, 'username game_list')
@@ -83,7 +83,7 @@ app.post('/getuser', async (req, res) => {
 
 
 //Logout endpoint; existing users get to sign off, removing refresh token and access token
-app.post('/logout', async (req, res) => {
+app.post('/api/logout', async (req, res) => {
     req.session.destroy((error) => {
         if (error) throw error
         res.clearCookie('uGameSession').send({isLoggedIn: false})
@@ -91,7 +91,7 @@ app.post('/logout', async (req, res) => {
 })
 
 //Login endpoint; existing users are able to log back, giving them both an access token & refresh token
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
     const email = req.body.email
     const password = req.body.password
     
@@ -122,7 +122,7 @@ app.post('/login', async (req, res) => {
 })
 
 //Sign up endpoint; new users are created here
-app.post('/signup', async (req, response) => {
+app.post('/api/signup', async (req, response) => {
     const email = req.body.email
     const username = req.body.username
     const password = req.body.password
@@ -162,7 +162,7 @@ const verifyUser = (req, res, next) => {
 
 //API calls for app
 //Add games to wishlist 
-app.post('/addgamewishlist', verifyUser, async (req, res) => {
+app.post('/api/addgamewishlist', verifyUser, async (req, res) => {
     const userID = req.body.userID
     const gameObj = req.body.game
                 
@@ -179,7 +179,7 @@ app.post('/addgamewishlist', verifyUser, async (req, res) => {
 })
 
 // Edits properties (game_status & game_rating) for a game stored in the DB
-app.put('/editplayedgame', verifyUser, async (req, res) => {
+app.put('/api/editplayedgame', verifyUser, async (req, res) => {
     const userID = req.body.userID
     const gameID = req.body.gameID
     const status = req.body.gameStatus
@@ -202,7 +202,7 @@ app.put('/editplayedgame', verifyUser, async (req, res) => {
 })
 
 //Add games to played list
-app.post('/addplayedgame', verifyUser, async (req, res) => {
+app.post('/api/addplayedgame', verifyUser, async (req, res) => {
     const userID = req.body.userID
     const gameObj = req.body.game
                     
@@ -219,7 +219,7 @@ app.post('/addplayedgame', verifyUser, async (req, res) => {
 })
 
 //Deletes game from played list
-app.delete('/deleteplayedgame', verifyUser, async (req, res) => {
+app.delete('/api/deleteplayedgame', verifyUser, async (req, res) => {
     const userID = req.body.userID
     const gameID = req.body.gameID
 
@@ -240,7 +240,7 @@ app.delete('/deleteplayedgame', verifyUser, async (req, res) => {
 })
 
 //Deletes game from wishlist
-app.delete('/deletewishlistgame', verifyUser, async (req, res) => {
+app.delete('/api/deletewishlistgame', verifyUser, async (req, res) => {
     const userID = req.body.userID
     const gameID = req.body.gameID
 
@@ -260,12 +260,11 @@ app.delete('/deletewishlistgame', verifyUser, async (req, res) => {
     })
 })
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('/client/build'))
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-    })
-}
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
 
 app.listen(4000, () => {
     console.log("API server running on port " + port)
