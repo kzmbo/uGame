@@ -3,7 +3,7 @@ import { AuthContext } from '../context/AuthProvider'
 import Axios from 'axios'
 
 // URL for deleting games from the wishlist library
-const deleteWishlistGameURI = 'http://localhost:4000/deletewishlistgame'
+const deleteWishlistGameURI = `${process.env.REACT_APP_SERVER_URI}/api/deletewishlistgame`
 
 // API endpoint for deleting games from the wishlist library
 const deleteGameFromDB = async (gameID, userID) => {

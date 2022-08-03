@@ -34,9 +34,9 @@ const AddGame = () => {
     const [ changeAddGameSection, setAddGameSection ] = useState(true)
 
     // URI for adding played games
-    const addGamePlayedURI = `${process.env.REACT_APP_SERVER_URI}/addplayedgame`
+    const addGamePlayedURI = `${process.env.REACT_APP_SERVER_URI}/api/addplayedgame`
     // URI for adding wishlist games
-    const addGameWishlistURI = `${process.env.REACT_APP_SERVER_URI}/addgamewishlist`
+    const addGameWishlistURI = `${process.env.REACT_APP_SERVER_URI}/api/addgamewishlist`
 
     // Adds games to played DB with their props
     // Checks if game exist in the RAWG API 

@@ -31,9 +31,9 @@ const EditGame = ( {gameID, gameTitle, _gameRating, _gameHoursPlayed, _gameStatu
     const [ endpointMsg, setEndpointStatus ] = useState('')
 
     // URI for editing played games
-    const editPlayedGameURI = `${process.env.REACT_APP_SERVER_URI}/editplayedgame`
+    const editPlayedGameURI = `${process.env.REACT_APP_SERVER_URI}/api/editplayedgame`
     // URI for deleting played games
-    const deletePlayedGameURI = `${process.env.REACT_APP_SERVER_URI}/deleteplayedgame`
+    const deletePlayedGameURI = `${process.env.REACT_APP_SERVER_URI}/api/deleteplayedgame`
 
     // Deletes Played Games from the DB
     const deleteGameFromDB = async (gameID, userID) => {

@@ -21,7 +21,7 @@ const UserPersistance = () => {
     const { authUser, setAuth } = useContext(AuthContext)
 
     // API Endpoint for logging user in the dashboard
-    const isLoginUserURI = `${process.env.REACT_APP_SERVER_URI}/login`
+    const isLoginUserURI = `${process.env.REACT_APP_SERVER_URI}/api/login`
 
     // Checks to see if user has an existing session. 
     // If so, log back in. If not, go to the login page
