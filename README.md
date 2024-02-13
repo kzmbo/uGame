@@ -1,6 +1,8 @@
 # uGame
 ## An web app where you can keep track of all of the games that you've played or wish to play.
 
+[Link to project](https://ugameapp.netlify.app/)**
+
 **Credit to RAWG Video Game Database API for provide a detailed set of data for each video game title. [Link to API.](https://rawg.io/apidocs)**
 
 ## Log In or Create an Account
