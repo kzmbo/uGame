@@ -13,7 +13,7 @@ const path = require('path')
 const port = process.env.PORT || 4000
 
 app.use(cors({
-    origin: 'https://main--ugameapp.netlify.app',
+    origin: 'https://ugameapp.netlify.app',
     credentials: true  // Allow credentials (cookies, authorization headers, etc.)
 }));
 
