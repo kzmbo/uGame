@@ -17,8 +17,11 @@ app.use(cors({
 }));
 
 //MongoDB config
-const URL_DB = process.env.URL_DB
-mongoose.connect(URL_DB, {useNewUrlParser: true})
+const URL_DB = 'mongodb+srv://kembo:robl12345@ugame.1sbvva3.mongodb.net/?retryWrites=true&w=majority&appName=uGame'
+const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+// {useNewUrlParser: true}
+mongoose.connect(URL_DB, clientOptions )
+
 
 app.use(express.json());
 
@@ -30,7 +33,7 @@ const store = new MongoDBStore({
     uri: URL_DB,
     collection: 'uGameSessions'
 });
-  
+
 // Catches any error when creating collections for storing sessions
 store.on('error', (error) => {
     console.log(error)
@@ -94,7 +97,7 @@ app.post('/api/logout', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     const email = req.body.email
     const password = req.body.password
-    
+
 
     await UserModel.find({email: email})
     .then((user) => {
@@ -102,7 +105,7 @@ app.post('/api/login', async (req, res) => {
         if (user.length != 0){
             bcrypt.compare(password, user[0].password, (err, isPasswordCorrect) => {
                 if (err) throw err
-                
+
                 if (isPasswordCorrect){
                     req.session.userID = user[0].id
                     res.json({userID: user[0].id, sid: req.sessionID, isLoggedIn: true})
@@ -114,11 +117,11 @@ app.post('/api/login', async (req, res) => {
         } else {
             return res.json({msg: 'Log In Error! User is not found', isLoggedIn: false})
         }
-        
+
     })
     .catch((error) => {
         return res.json({error: error, msg: 'here'})
-    }) 
+    })
 })
 
 //Sign up endpoint; new users are created here
@@ -128,7 +131,7 @@ app.post('/api/signup', async (req, response) => {
     const password = req.body.password
 
     if (email.length === 0 || username.length === 0 || password.length == 0) return response.json({
-        msg: 'Sign Up Failed. Please fill in the fields correctly!', isSignedUp: false 
+        msg: 'Sign Up Failed. Please fill in the fields correctly!', isSignedUp: false
     })
 
     //Checks for any existing email
@@ -149,7 +152,7 @@ app.post('/api/signup', async (req, response) => {
         return response.json({msg: 'Sign Up Failed. Email already exists!', isSignedUp: false})
     }).catch((err) => {
         console.log(err)
-    })   
+    })
 })
 //End Auth endpoints
 
@@ -161,14 +164,14 @@ const verifyUser = (req, res, next) => {
 }
 
 //API calls for app
-//Add games to wishlist 
+//Add games to wishlist
 app.post('/api/addgamewishlist', verifyUser, async (req, res) => {
     const userID = req.body.userID
     const gameObj = req.body.game
-                
+
     await UserModel.findById(userID, 'game_list games_wishlist')
     .then(async (db) => {
-        db.game_list.games_wishlist.push(gameObj) 
+        db.game_list.games_wishlist.push(gameObj)
         await db.save()
         return res.send(db.game_list.games_wishlist)
     })
@@ -205,7 +208,7 @@ app.put('/api/editplayedgame', verifyUser, async (req, res) => {
 app.post('/api/addplayedgame', verifyUser, async (req, res) => {
     const userID = req.body.userID
     const gameObj = req.body.game
-                    
+
     await UserModel.findById(userID, 'game_list games_played')
     .then(async (db) => {
         const arr = db.game_list.games_played.push(gameObj)
@@ -228,10 +231,10 @@ app.delete('/api/deleteplayedgame', verifyUser, async (req, res) => {
         const listOfPlayedGames = result.game_list.games_played
         const game = listOfPlayedGames.find(({id}) => id === gameID)
         const index = listOfPlayedGames.indexOf(game)
-        
+
         listOfPlayedGames.splice(index, 1)
         result.save()
-        
+
         res.json({msg: "Successfully Deleted Game!", statusCode: 200})
     })
     .catch((error) => {
@@ -249,10 +252,10 @@ app.delete('/api/deletewishlistgame', verifyUser, async (req, res) => {
         const listOfWishlistGames = result.game_list.games_wishlist
         const game = listOfWishlistGames.find(({id}) => id === gameID)
         const index = listOfWishlistGames.indexOf(game)
-        
+
         listOfWishlistGames.splice(index, 1)
         result.save()
-        
+
         res.json({msg: "Successfully Deleted Game!", statusCode: 200})
     })
     .catch((error) => {
